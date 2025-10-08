@@ -1,4 +1,15 @@
+import RenderizaCaixa from "./categories/RenderizaCaixa";
+import RenderizaPote from "./categories/RenderizaPote";
+import RenderizaPicole from "./categories/RenderizaPicole";
+
 const ShowProducts = ({ products, category }) => {
+
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(price);
+    };
 
     if (!products[category]) {
         return <p>Carregando produtos...</p>;
@@ -7,14 +18,10 @@ const ShowProducts = ({ products, category }) => {
 
     if (category === "caixas") {
         return (
-            <div id="caixas">
-                <ul>
-                    {products[category].map((product) => (
-                        <li key={product.id}>
-                            {product.name}: {product.retailPrice} / {product.wholesalePrice}
-                        </li>
-                    ))}
-                </ul>
+            <div className="grid">
+                {products[category].map((product, index) => (
+                    <RenderizaCaixa product={product} key={index} />
+                ))}
             </div>
         );
     }
@@ -24,62 +31,20 @@ const ShowProducts = ({ products, category }) => {
                 {Object.keys(products[category]).map((subcategoryKey) => {
                     const subcategoryArray = products[category][subcategoryKey];
                     return (
-                        <div>
-                            <div key={subcategoryKey} id={subcategoryKey}>
-                                <h3>
-                                    <span>{subcategoryKey == "duzentos" ? "200 ML" : 
-                                           subcategoryKey == "quinhentos" ? "500 ML" : 
-                                           subcategoryKey == "LitroComum" ? "1 Litro Comum" :
-                                           subcategoryKey == "litroPremium" ? "1 Litro Premium" : subcategoryKey}:</span> 
-                                    <span>Varejo</span> 
-                                    <span>Atacado</span>
-                                </h3>
-                                <ul>
-                                    {subcategoryArray.map((product) => (
-                                        <li key={product.id}>
-                                            <span>{product.name}:</span> <span>{product.retailPrice}</span> <span>{product.wholesalePrice}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="img-container" id={`img-${subcategoryKey}`}>
-                                <img src={`/img/${subcategoryKey == "duzentos" ? "sorvete1" :
-                                                  subcategoryKey == "quinhentos" ? "pote_ninho" :
-                                                  subcategoryKey == "LitroComum" ? "pote_choco" :
-                                                  subcategoryKey == "litroPremium" ? "sorvete2" : subcategoryKey}.png`} alt={subcategoryKey} />
-                                {subcategoryKey == "LitroComum" ? (
-                                    <img src={`/img/sorvete_oreo.png`} alt="Comparação Litro Comum vs Premium" style={{ marginTop: '10px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
-                                ) : null}
-                            </div>
-                        </div>
-                    )
-
+                        <RenderizaPote Key={subcategoryKey} Array={subcategoryArray} key={subcategoryKey} />
+                    );
                 })}
             </div>
         );
     }
-
     else if (category == "picoles") {
         return (
             <div className="grid" >
                 {Object.keys(products[category]).map((subcategoryKey) => {
                     const subcategoryArray = products[category][subcategoryKey];
                     return (
-                        <div>
-                            <div key={subcategoryKey} id={subcategoryKey}>
-                                <h3><span>{subcategoryKey}:</span> <span>Varejo</span> <span>Atacado</span></h3>
-                                <ul>
-                                    {subcategoryArray.map((product) => (
-                                        <li key={product.id}>
-                                            <span>{product.name}:</span> <span>{product.retailPrice}</span> <span>{product.wholesalePrice}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <img src={`/img/${subcategoryKey}.jpg`} alt={subcategoryKey} />
-                        </div>
-                    )
-
+                        <RenderizaPicole Key={subcategoryKey} Array={subcategoryArray} key={subcategoryKey} />
+                    );
                 })}
             </div>
         );
