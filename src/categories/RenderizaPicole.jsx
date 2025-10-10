@@ -15,20 +15,20 @@ const RenderizaPicole = ({ Key, Array }) => {
                             Key == "leite" ? "Picolé a base de Leite" : 
                             Key == "especial" ? "Picolé Especial" : Key}:</span> 
                     <span>Varejo</span> 
-                    <span>Atacado</span>
+                    <span className="atacado">Atacado <span className="unidades">(60 Un.)</span></span>
                 </h3>
                 <ul>
                     {Array.map((product) => (
                         <li key={product.id}>
-                            <span>{product.name}:</span> <span>{formatPrice(product.retailPrice)}</span> <span>{formatPrice(product.wholesalePrice)}</span>
+                            <span>{product.name}</span> <span>{formatPrice(product.retailPrice)}</span> <span className="atacado">{formatPrice(product.wholesalePrice)}</span>
                         </li>
                     ))}
                 </ul>
             </div>
             <div className="img-container" id={`img-${Key}`}>
-                <img src={`/img/${Key == "agua" ? "copos" :
-                                    Key == "leite" ? "copos2" :
-                                    Key == "especial" ? "pote_tentacao" : Key}.png`} alt={Key} />
+                <img src={`/img/${Key == "agua" ? "picoles" :
+                                    Key == "leite" ? "picoles3" :
+                                    Key == "especial" ? "picoles2" : Key}.png`} alt={Key} />
             </div>
         </div>
     )

@@ -12,21 +12,21 @@ const RenderizaCaixa = ({ product }) => {
                 <h3>
                     <span>{product.name}:</span>
                     <span>Varejo</span>
-                    <span>Atacado</span>
+                    <span className="atacado">Atacado <span className="unidades">(30 Un.)</span></span>
                 </h3>
                 <ul>
                     <li>
                         <span>Preço:</span>
                         <span>{formatPrice(product.retailPrice)}</span>
-                        <span>{formatPrice(product.wholesalePrice)}</span>
+                        <span className="atacado">{formatPrice(product.wholesalePrice)}</span>
                     </li>
                 </ul>
             </div>
             <div className="img-container" id={`img-caixa-${product.id}`}>
                 <img 
-                    src={`/img/${product.id === "56" ? "copos" : 
-                                    product.id === "57" ? "copos2" : 
-                                    product.id === "58" ? "choco" : "copos"}.png`} 
+                    src={`/img/${product.id === "56" ? "choco" : 
+                                    product.id === "57" ? "copos" : 
+                                    product.id === "58" ? "caixa" : "copos"}.png`} 
                     alt={product.name} 
                 />
             </div>

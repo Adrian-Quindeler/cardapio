@@ -100,6 +100,23 @@ h3 {
     border-bottom: 2px solid #CDCDCD;
 }
 
+h3 > span{
+    line-height: 0.1em;
+}
+
+span.atacado{
+    text-align: center;
+}
+
+span.unidades{
+    color: #555;
+    font-size: 12px;
+    position: relative;
+    top: -20px;
+    white-space: nowrap;
+}
+
+
 .grid {
     gap: 20px;
     display: flex;
