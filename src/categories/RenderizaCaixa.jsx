@@ -24,9 +24,9 @@ const RenderizaCaixa = ({ product }) => {
             </div>
             <div className="img-container" id={`img-caixa-${product.id}`}>
                 <img 
-                    src={`/img/${product.id === "56" ? "choco" : 
-                                    product.id === "57" ? "copos" : 
-                                    product.id === "58" ? "caixa" : "copos"}.png`} 
+                    src={`/img/${product.id === "54" ? "caixa" : 
+                                 product.id === "55" ? "copos" : 
+                                 product.id === "56" ? "choco" : "copos"}.png`} 
                     alt={product.name} 
                 />
             </div>
