@@ -5,6 +5,10 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 main {
     margin: auto;
     max-width: 900px;
@@ -61,6 +65,8 @@ h1 {
     border-radius: 8px 8px 0 0;
     background-color: #ffffff;
     transform: translate(0, 100%);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .category-buttons button:hover {
@@ -105,7 +111,7 @@ h3 > span{
 }
 
 span.atacado{
-    text-align: center;
+    text-align: center !important;
 }
 
 span.unidades{
@@ -165,4 +171,202 @@ span.unidades{
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividade para tablets */
+@media screen and (max-width: 760px) {
+    main {
+        margin: 10px;
+        padding: 15px 0 0 0;
+        max-width: none;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin: 10px 0;
+    }
+
+    .category-buttons {
+        gap: 10px;
+        margin: 15px 0;
+        flex-wrap: wrap;
+    }
+
+    .category-buttons button {
+        font-size: 14px;
+        padding: 8px 16px;
+        transform: translate(0, 70%);
+    }
+
+    .category-buttons button.active {
+        color: #000436;
+        transform: translate(0, 50%);
+    }
+
+    .conteudo {
+        padding: 30px 15px;
+    }
+
+    .grid > div {
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .grid > div:nth-child(odd) .img-container,
+    .grid > div:nth-child(even) .img-container {
+        flex: 0 0 250px;
+    }
+
+    span.atacado {
+        text-align: center !important;
+    }
+
+    ul li,
+    h3 {
+        gap: 8px;
+        font-size: 14px;
+    }
+}
+
+
+/* Responsividade para celulares */
+@media screen and (max-width: 550px) {
+    main {
+        margin: 5px;
+        padding: 10px 0 0 0;
+        border-radius: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 0 10px;
+    }
+
+    .category-buttons {
+        gap: 8px;
+        margin: 10px 0;
+        padding: 0 10px;
+    }
+
+    .category-buttons button {
+        font-size: 12px;
+        padding: 6px 10px;
+        flex: 1;
+        min-height: 44px;
+        transform: translate(0, 60%);
+    }
+
+    .category-buttons button.active {
+        color: #000436;
+        transform: translate(0, 40%);
+    }
+
+    .conteudo {
+        padding: 20px 10px;
+    }
+
+    /* Layout em coluna para celular */
+    .grid > div:nth-child(odd),
+    .grid > div:nth-child(even) {
+        flex-direction: column !important;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .grid > div:nth-child(odd) > div:first-child,
+    .grid > div:nth-child(even) > div:first-child {
+        flex: none;
+        order: 2;
+    }
+
+    .grid > div:nth-child(odd) .img-container,
+    .grid > div:nth-child(even) .img-container {
+        flex: none;
+        order: 1;
+        width: 100%;
+        max-width: 200px; /* Reduzido de 280px para 200px */
+        margin: 0 auto;
+    }
+
+    .img-container {
+        gap: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .litroComum img{
+        max-width: 150px;
+    }
+
+    ul li,
+    h3 {
+        gap: 5px;
+        font-size: 12px;
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+
+    h3 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    span.atacado {
+        text-align: center !important;
+    }
+
+    span.unidades {
+        font-size: 10px;
+        top: -15px;
+    }
+}
+
+/* Responsividade para telas muito pequenas */
+@media screen and (max-width: 320px) {
+    h1 {
+        font-size: 18px;
+    }
+
+    .category-buttons button {
+        font-size: 11px;
+        padding: 5px 8px;
+        transform: translate(0, 50%);
+    }
+
+    .category-buttons button.active {
+        color: #000436;
+        transform: translate(0, 30%);
+    }
+    .conteudo {
+        padding: 15px 8px;
+    }
+
+    
+    .litroComum img{
+        max-width: 100px;
+    }
+
+    ul li,
+    h3 {
+        font-size: 11px;
+        gap: 3px;
+    }
+
+    h3 {
+        font-size: 12px;
+    }
+
+    span.atacado {
+        text-align: center;
+    }
+
+    span.unidades {
+        font-size: 9px;
+    }
+
+    .grid > div:nth-child(odd) .img-container,
+    .grid > div:nth-child(even) .img-container {
+        max-width: 180px; /* Reduzido de 250px para 180px */
+    }
 }

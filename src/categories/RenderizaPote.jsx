@@ -31,16 +31,20 @@ const RenderizaPote = ({ Key, Array }) => {
                     ))}
                 </ul>
             </div>
+            {Key == "LitroComum" ? (
+                <div className="img-container litroComum" id={`img-${Key}`}>
+                    <img src={`/img/pote_choco.png`} alt={Key} />
+                    <img src={`/img/sorvete_oreo.png`} alt="Comparação Litro Comum vs Premium" style={{ marginTop: '10px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
+                </div>
+            ) 
+            : 
             <div className="img-container" id={`img-${Key}`}>
                 <img src={`/img/${Key == "duzentos" ? "sorvete1" :
                                     Key == "quinhentos" ? "pote_ninho" :
-                                    Key == "LitroComum" ? "pote_choco" :
                                     Key == "doisLitros" ? "dois_litros" :
                                     Key == "litroPremium" ? "sorvete2" : Key}.png`} alt={Key} />
-                {Key == "LitroComum" ? (
-                    <img src={`/img/sorvete_oreo.png`} alt="Comparação Litro Comum vs Premium" style={{ marginTop: '10px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
-                ) : null}
             </div>
+            }
         </div>
     )
 }
