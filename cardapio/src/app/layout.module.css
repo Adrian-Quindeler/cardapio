@@ -1,5 +1,5 @@
-/**
- * TODO: Estilos do layout raiz da aplicação.
- */
-
-/* Vazio — estilos serão implementados nas próximas etapas. */
+.body {
+  min-height: 100dvh;
+  margin: 0;
+  font-family: var(--font-display);
+}

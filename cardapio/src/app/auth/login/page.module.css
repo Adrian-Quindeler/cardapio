@@ -1,5 +1,224 @@
-/**
- * TODO: Estilos da página de login.
- */
+.main {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(244, 232, 26, 0.18), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.12), transparent 40%),
+    linear-gradient(160deg, var(--mamute-blue) 0%, var(--mamute-blue-deep) 100%);
+  color: var(--mamute-white);
+}
 
-/* Vazio — estilos serão implementados nas próximas etapas. */
+.glow {
+  position: absolute;
+  width: min(70vw, 28rem);
+  height: min(70vw, 28rem);
+  border-radius: 50%;
+  background: rgba(244, 232, 26, 0.14);
+  filter: blur(40px);
+  animation: floatGlow 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 26rem);
+  padding: 2rem 1.75rem 1.75rem;
+  border-radius: var(--mamute-radius);
+  background: var(--mamute-white);
+  color: var(--mamute-ink);
+  box-shadow: var(--mamute-shadow);
+  animation: riseIn 0.55s ease-out both;
+}
+
+.brand {
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.logo {
+  width: 8.5rem;
+  height: auto;
+  border-radius: 50%;
+  animation: softPop 0.7s ease-out both;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--mamute-blue);
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 20rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--mamute-muted);
+  font-weight: 500;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--mamute-blue);
+}
+
+.input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid #d9dced;
+  border-radius: 0.95rem;
+  background: #fafbff;
+  color: var(--mamute-ink);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--mamute-blue);
+  background: var(--mamute-white);
+  box-shadow: 0 0 0 4px rgba(63, 68, 155, 0.15);
+}
+
+.input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.85rem;
+  background: #ffe8e8;
+  color: var(--mamute-error);
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: shake 0.35s ease;
+}
+
+.submit {
+  margin-top: 0.35rem;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--mamute-yellow);
+  color: var(--mamute-blue);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
+  box-shadow: 0 8px 0 rgba(46, 51, 120, 0.18);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--mamute-yellow-hover);
+  transform: translateY(-2px);
+}
+
+.submit:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 4px 0 rgba(46, 51, 120, 0.18);
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.loading {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--mamute-white);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes softPop {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes floatGlow {
+  0%,
+  100% {
+    transform: translate(-10%, -8%);
+  }
+  50% {
+    transform: translate(12%, 10%);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.6rem 1.25rem 1.4rem;
+  }
+
+  .logo {
+    width: 7.25rem;
+  }
+}

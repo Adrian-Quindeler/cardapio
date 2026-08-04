@@ -1,5 +1,97 @@
-/**
- * TODO: Estilos do dashboard administrativo.
- */
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(circle at top right, rgba(244, 232, 26, 0.2), transparent 40%),
+    linear-gradient(180deg, #f7f8ff 0%, #eef0fb 100%);
+}
 
-/* Vazio — estilos serão implementados nas próximas etapas. */
+.panel {
+  width: min(100%, 28rem);
+  padding: 2rem;
+  border-radius: var(--mamute-radius);
+  background: var(--mamute-white);
+  box-shadow: var(--mamute-shadow);
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0 0 0.75rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(244, 232, 26, 0.35);
+  color: var(--mamute-blue);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.heading {
+  margin: 0 0 0.5rem;
+  color: var(--mamute-blue);
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+}
+
+.muted {
+  margin: 0;
+  color: var(--mamute-muted);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.meta {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.meta div {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.9rem;
+  background: #f4f5fc;
+}
+
+.meta dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mamute-muted);
+}
+
+.meta dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--mamute-ink);
+}
+
+.logout {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--mamute-blue);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mamute-blue);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.logout:hover:not(:disabled) {
+  background: var(--mamute-blue);
+  color: var(--mamute-white);
+  transform: translateY(-1px);
+}
+
+.logout:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

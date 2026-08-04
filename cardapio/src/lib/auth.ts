@@ -1,14 +1,12 @@
 import { betterAuth } from "better-auth";
+import { APIError } from "better-auth/api";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { username } from "better-auth/plugins";
+import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import * as schema from "../../drizzle/schema/auth";
 
-/**
- * Better Auth — autenticação por username/senha, persistida no Turso via Drizzle.
- * Signup público desabilitado: o primeiro admin é criado pelo script de seed.
- */
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "sqlite",
@@ -19,12 +17,15 @@ export const auth = betterAuth({
       verification: schema.verification,
     },
   }),
+
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL,
+
   emailAndPassword: {
     enabled: true,
     disableSignUp: true,
   },
+
   user: {
     additionalFields: {
       role: {
@@ -41,6 +42,29 @@ export const auth = betterAuth({
       },
     },
   },
+
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session) => {
+          const [row] = await db
+            .select({ status: schema.user.status })
+            .from(schema.user)
+            .where(eq(schema.user.id, session.userId))
+            .limit(1);
+
+          if (row?.status === "inactive") {
+            throw new APIError("FORBIDDEN", {
+              message: "Usuário inativo",
+            });
+          }
+
+          return { data: session };
+        },
+      },
+    },
+  },
+
   plugins: [username(), nextCookies()],
 });
 

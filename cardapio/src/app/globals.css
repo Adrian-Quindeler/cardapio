@@ -1,9 +1,36 @@
-/**
- * TODO: Estilos globais da aplicação.
- * Definir variáveis CSS, reset básico e tipografia.
- * Não utilizar Tailwind CSS. Bootstrap apenas pontualmente no futuro.
- */
-
 :root {
-  /* TODO: Definir tokens de cor, tipografia e espaçamento */
+  --mamute-blue: #3f449b;
+  --mamute-blue-deep: #2e3378;
+  --mamute-yellow: #f4e81a;
+  --mamute-yellow-hover: #ffe84a;
+  --mamute-white: #ffffff;
+  --mamute-ink: #1c1f4a;
+  --mamute-muted: #5c6191;
+  --mamute-error: #c62828;
+  --mamute-radius: 1.75rem;
+  --mamute-shadow: 0 18px 48px rgba(28, 31, 74, 0.22);
+  --font-display: var(--font-quicksand), "Quicksand", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-display);
+  color: var(--mamute-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
 }
