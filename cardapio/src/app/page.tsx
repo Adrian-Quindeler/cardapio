@@ -1,4 +1,8 @@
 import styles from "./page.module.css";
+import Navbar from "@/components/home/Navbar";
+import Hero from "@/components/home/Hero";
+import CategorySection from "@/components/home/CategorySection";
+import Footer from "@/components/home/Footer";
 
 /**
  * TODO: Página pública do cardápio.
@@ -8,5 +12,14 @@ import styles from "./page.module.css";
  */
 
 export default function HomePage() {
-  return <main className={styles.main}>{null}</main>;
+	return (
+		<>
+			<Navbar />
+			<main className={styles.main}>
+				<Hero />
+				<CategorySection />
+			</main>
+			<Footer />
+		</>
+	);
 }
