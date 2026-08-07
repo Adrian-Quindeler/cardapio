@@ -1,0 +1,72 @@
+.hero {
+	width: auto;
+	position: relative;
+	isolation: isolate;
+	margin: 0.75rem;
+	border-radius: 1.15rem;
+	overflow: hidden;
+	box-shadow: 0 6px 24px rgba(28, 31, 74, 0.08);
+	border: 1px solid rgba(63, 68, 155, 0.08);
+}
+
+.media {
+	width: 100%;
+	position: relative;
+	animation: heroReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.heroImage {
+	width: 100%;
+	height: auto;
+	display: block;
+	animation: heroImageIn 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes heroReveal {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes heroImageIn {
+	0% {
+		opacity: 0;
+		transform: scale(1.035);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@media (max-width: 768px) {
+	.hero {
+		margin: 0.55rem;
+		border-radius: 1rem;
+	}
+
+	.scrollCue {
+		bottom: 0.4rem;
+		width: 1.85rem;
+		height: 1.85rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.media,
+	.heroImage,
+	.scrollCue,
+	.scrollCueIcon {
+		animation: none;
+	}
+
+	.media,
+	.heroImage,
+	.scrollCue {
+		opacity: 1;
+		transform: none;
+	}
+}
