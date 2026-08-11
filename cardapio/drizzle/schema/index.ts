@@ -4,6 +4,7 @@ import { categories } from "./categories";
 import { subcategories } from "./subcategories";
 import { products } from "./products";
 import { storeHours } from "./store-hours";
+import { storeSettings } from "./store-settings";
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
   subcategories: many(subcategories),
@@ -41,4 +42,5 @@ export {
   subcategories,
   products,
   storeHours,
+  storeSettings,
 };

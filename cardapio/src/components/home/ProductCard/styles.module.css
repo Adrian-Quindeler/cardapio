@@ -1,0 +1,125 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.55rem;
+	text-align: center;
+	animation: cardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.media {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1;
+	border-radius: 0.85rem;
+	overflow: hidden;
+	background: linear-gradient(
+		165deg,
+		rgba(63, 68, 155, 0.06) 0%,
+		rgba(244, 232, 26, 0.12) 100%
+	);
+	border: 1px solid rgba(63, 68, 155, 0.08);
+}
+
+.image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover .image {
+	transform: scale(1.04);
+}
+
+.placeholder {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	color: var(--mamute-blue);
+	font-size: 2rem;
+	opacity: 0.55;
+}
+
+.name {
+	margin: 0.15rem 0 0;
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	color: var(--mamute-ink);
+	line-height: 1.25;
+}
+
+.prices {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	width: 100%;
+}
+
+.priceRow {
+	margin: 0;
+	font-size: 0.82rem;
+	font-weight: 500;
+	color: var(--mamute-muted);
+	line-height: 1.3;
+}
+
+.priceRow strong {
+	font-weight: 700;
+	color: var(--mamute-blue);
+}
+
+.priceRowWholesale {
+	font-size: 0.76rem;
+}
+
+.priceRowWholesale strong {
+	color: var(--mamute-blue-deep);
+	font-weight: 600;
+}
+
+@keyframes cardIn {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 768px) {
+	.name {
+		font-size: 0.95rem;
+	}
+
+	.priceRow {
+		font-size: 0.78rem;
+	}
+
+	.priceRowWholesale {
+		font-size: 0.72rem;
+	}
+
+	.placeholder {
+		font-size: 1.65rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.card {
+		animation: none;
+	}
+
+	.card:hover .image {
+		transform: none;
+	}
+
+	.image {
+		transition: none;
+	}
+}

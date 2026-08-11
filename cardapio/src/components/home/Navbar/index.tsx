@@ -6,9 +6,9 @@ import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 
 const categories = [
-	{ href: "#caixas", label: "Caixas" },
-	{ href: "#potes", label: "Potes" },
-	{ href: "#picoles", label: "Picolés" }
+	{ href: "#Caixas", label: "Caixas" },
+	{ href: "#Potes", label: "Potes" },
+	{ href: "#Picolés", label: "Picolés" }
 ];
 
 export default function Navbar() {

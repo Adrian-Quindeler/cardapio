@@ -1,5 +1,5 @@
-/**
- * TODO: Estilos da página pública do cardápio.
- */
-
-/* Vazio — estilos serão implementados nas próximas etapas. */
+.main {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 2.5rem;
+}

@@ -7,3 +7,4 @@ export type { Category, CategoryStatus } from "./category";
 export type { Subcategory, SubcategoryStatus } from "./subcategory";
 export type { User, UserRole, UserStatus } from "./user";
 export type { StoreHours, StoreStatus } from "./store-hours";
+export type { StoreSettings } from "./store-settings";

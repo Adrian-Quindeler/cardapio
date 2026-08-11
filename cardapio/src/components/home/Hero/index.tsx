@@ -9,8 +9,8 @@ export default function Hero() {
 					className={styles.heroImage}
 					src="/images/hero.png"
 					alt="A felicidade tem sabor — açaís, sorvetes e combinações Mamute"
-					width={1983}
-					height={793}
+					width={1980}
+					height={434}
 					priority
 					sizes="100vw"
 				/>
