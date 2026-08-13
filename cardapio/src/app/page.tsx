@@ -1,35 +1,32 @@
-import { db } from "@/lib/db";
-import { asc, eq } from "drizzle-orm";
-import { categories } from "../../drizzle/schema";
+import { getHomePageData } from "@/lib/home-data";
 import CategorySection from "@/components/home/CategorySection";
 import Footer from "@/components/home/Footer";
-import Navbar from "@/components/home/Navbar";
-import Hero   from "@/components/home/Hero";
+import Header from "@/components/home/Header";
+import Hero from "@/components/home/Hero";
 import styles from "./page.module.css";
 
 export default async function HomePage() {
-	const categoryList = await db
-		.select({
-			id: categories.id,
-			name: categories.name,
-			description: categories.description,
-		})
-		.from(categories)
-		.where(eq(categories.status, "active"))
-		.orderBy(asc(categories.displayOrder));
+	const { categoryRows, categoryList, storeSettings, storeHours } = await getHomePageData();
 
 	return (
 		<>
-			<Navbar />
+			<Header
+				categoryList={categoryRows}
+				storeSettings={storeSettings}
+				storeHours={storeHours}
+			/>
 
 			<main className={styles.main}>
 				<Hero />
 
 				{categoryList.map((category) => {
+					const { subcategories: subcategoryList, ...categoryData } = category;
+
 					return (
 						<CategorySection
 							key={category.id}
-							category={category as { id: string; name: string; description: string }}
+							category={categoryData}
+							subcategoryList={subcategoryList}
 						/>
 					);
 				})}

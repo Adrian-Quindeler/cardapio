@@ -6,6 +6,10 @@ interface ProductCardProps {
 	product: {
 		id: string;
 		name: string;
+		description: string | null;
+		retailPrice: number;
+		wholesalePrice: number;
+		imageUrl: string | null;
 	};
 	style?: CSSProperties;
 }
@@ -18,17 +22,7 @@ function formatPrice(value: number) {
 }
 
 export default function ProductCard({ product, style }: ProductCardProps) {
-	function getProductDetails(product: { id: string; name: string }) {
-		return {
-			image: "",
-			retailPrice: 18,
-			wholesalePrice: 14.4,
-			name: product.name,
-		};
-	}
-
-	const details = getProductDetails(product);
-	const hasImage = Boolean(details.image);
+	const hasImage = Boolean(product.imageUrl);
 
 	return (
 		<article className={styles.card} style={style}>
@@ -36,8 +30,8 @@ export default function ProductCard({ product, style }: ProductCardProps) {
 				{hasImage ? (
 					<Image
 						className={styles.image}
-						src={details.image}
-						alt={details.name}
+						src={product.imageUrl!}
+						alt={product.name}
 						width={320}
 						height={320}
 						sizes="(max-width: 768px) 45vw, 20vw"
@@ -49,14 +43,14 @@ export default function ProductCard({ product, style }: ProductCardProps) {
 				)}
 			</div>
 
-			<h3 className={styles.name}>{details.name}</h3>
+			<h3 className={styles.name}>{product.name}</h3>
 
 			<div className={styles.prices}>
 				<p className={styles.priceRow}>
-					Varejo: <strong>{formatPrice(details.retailPrice)}</strong>
+					Varejo: <strong>{formatPrice(product.retailPrice)}</strong>
 				</p>
 				<p className={`${styles.priceRow} ${styles.priceRowWholesale}`}>
-					Atacado: <strong>{formatPrice(details.wholesalePrice)}</strong>
+					Atacado: <strong>{formatPrice(product.wholesalePrice)}</strong>
 				</p>
 			</div>
 		</article>

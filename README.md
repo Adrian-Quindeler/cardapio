@@ -4,11 +4,11 @@
 
 Este projeto consiste no desenvolvimento de um sistema web para uma sorveteria, dividido em duas áreas: uma área pública para os clientes consultarem os produtos e uma área administrativa para gerenciamento do sistema.
 
----  
+---
 
 # Stack
 
-O sisema utiliza as tecnologias abaixo:
+O sistema utiliza as tecnologias abaixo:
 
 * Next.js (App Router)
 * TypeScript
@@ -42,13 +42,33 @@ A área do cliente é totalmente pública e não exige autenticação. Ela funci
 * Horário de funcionamento da loja
 * Informação indicando se a loja está aberta ou fechada naquele momento
 
+### Fluxo de dados (leitura do cardápio)
+
+Os dados são carregados no servidor e passados por props até a UI:
+
+```
+page.tsx (Server Component)
+  → home-data.ts (consultas Drizzle)
+  → Header / CategorySection
+       → SubcategorySection
+            → ProductCard
+```
+
+Arquivos principais:
+
+* `cardapio/src/app/page.tsx` — orquestra a página e distribui os dados
+* `cardapio/src/lib/home-data.ts` — buscas e montagem da árvore categoria → subcategoria → produtos
+* `cardapio/src/components/home/` — componentes de exibição
+
+Não há nova consulta ao banco ao trocar de subcategoria na interface: a troca usa dados já carregados em memória.
+
 ---
 
 # Área Administrativa
 
-A área administrativa possui autenticação e somente usuários autorizados podem acessá-la.
+A área administrativa possui autenticação via Better Auth; somente usuários autorizados podem acessá-la.
 
-Após o login, o administrador tem acesso a um painel contendo os módulos:
+O painel está estruturado com os módulos abaixo (rotas e esboços em `src/app/admin`, `src/app/api`, `src/services` e `src/repositories`):
 
 * Dashboard
 * Produtos
@@ -57,20 +77,31 @@ Após o login, o administrador tem acesso a um painel contendo os módulos:
 * Usuários
 * Horários de Funcionamento
 
-Cada módulo possui operações completas de CRUD.
+A autenticação e a sessão já funcionam. O CRUD completo de cada módulo ainda está em construção (handlers, services e repositories em grande parte como stubs/TODO).
 
 ---
 
 # Arquitetura
 
-A organização do projeto segue uma arquitetura semelhante à utilizada em backends tradicionais.
+O projeto usa dois caminhos de dados, conforme a área.
+
+### Área pública (leitura)
+
+```
+Server Component → home-data (Drizzle) → props → componentes
+```
+
+Usado na home para carregar o cardápio de forma eficiente, sem passar pela API REST.
+
+### Área administrativa / API (alvo)
+
+A organização segue uma arquitetura semelhante à utilizada em backends tradicionais:
 
 ```
 Route Handler => Service => Repository => Banco de Dados
 ```
 
-Cada camada resolve apenas sua responsabilidade.
-
+Esboços em `src/app/api`, `src/services` e `src/repositories`. Cada camada resolve apenas sua responsabilidade.
 
 ### Route Handlers
 
@@ -100,7 +131,7 @@ Responsáveis por:
 
 Responsáveis exclusivamente pelo acesso ao banco de dados.
 
-Toda consulta SQL ou utilização do Drizzle fica nesta camada.
+Nas rotas de API, consultas SQL / Drizzle ficam nesta camada. Na área pública de leitura, as consultas do cardápio ficam em `home-data.ts`.
 
 ---
 
