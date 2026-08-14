@@ -1,3 +1,4 @@
+import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
 import styles from "./page.module.css";
 
 /**
@@ -5,5 +6,9 @@ import styles from "./page.module.css";
  * Gerenciar abertura, fechamento e indicador de fechado por dia da semana.
  */
 export default function AdminStoreHoursPage() {
-  return <section className={styles.page}>{null}</section>;
+  return (
+    <section className={styles.page}>
+      <SetAdminTitle title="Horários da loja" />
+    </section>
+  );
 }

@@ -1,3 +1,4 @@
+import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
 import styles from "./page.module.css";
 
 /**
@@ -5,5 +6,9 @@ import styles from "./page.module.css";
  * CRUD completo: listar, criar, editar, ativar/inativar.
  */
 export default function AdminSubcategoriesPage() {
-  return <section className={styles.page}>{null}</section>;
+  return (
+    <section className={styles.page}>
+      <SetAdminTitle title="Subcategorias" />
+    </section>
+  );
 }

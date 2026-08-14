@@ -1,3 +1,4 @@
+import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
 import styles from "./page.module.css";
 
 /**
@@ -5,5 +6,9 @@ import styles from "./page.module.css";
  * Cadastrar, editar, ativar/inativar e definir permissões/roles.
  */
 export default function AdminUsersPage() {
-  return <section className={styles.page}>{null}</section>;
+  return (
+    <section className={styles.page}>
+      <SetAdminTitle title="Usuários" />
+    </section>
+  );
 }

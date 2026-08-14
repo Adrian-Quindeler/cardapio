@@ -117,6 +117,10 @@ export default function Header({
 				</div>
 			</div>
 
+			<div className={styles.menuTitle}>
+				<h1>Cardápio</h1>
+			</div>
+
 			<nav className={styles.nav} aria-label="Categorias">
 				{categoryList.map((category) => {
 					const href = categoryHref(category.slug);

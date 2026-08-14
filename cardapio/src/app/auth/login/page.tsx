@@ -51,7 +51,7 @@ function LoginForm() {
 				setError(
 					result.error.message === "Usuário inativo"
 						? "Essa conta está inativa. Fale com o administrador."
-						: "Usuário ou senha incorretos. Tenta de novo?",
+						: "Usuário ou senha incorretos",
 				);
 				return;
 			}
@@ -73,68 +73,71 @@ function LoginForm() {
 	const busy = submitting || isPending;
 
 	return (
-		<div>
-			<div className={styles.glow} aria-hidden="true" />
+		<div className={styles.shell}>
+			<div className={styles.brandPane}>
+				<Image
+					src="/images/logo.png"
+					width={220}
+					height={220}
+					alt="Mamute Loja da Fábrica"
+					className={styles.logo}
+					priority
+				/>
+			</div>
 
-			<section className={styles.card}>
-				<div className={styles.brand}>
-					<Image
-						src="/images/logo.png" width ={168}
-						alt="Mamute Loja da Fábrica"  height={168}
-						className={styles.logo}
-						priority
-					/>
-					<h1 className={styles.title}>Entrar no painel</h1>
-					<p className={styles.subtitle}>
-						Área administrativa — simples, rápida e geladinha.
-					</p>
-				</div>
+			<div className={styles.formPane}>
+				<section className={styles.card}>
+					<div className={styles.header}>
+						<h1 className={styles.title}>Entrar no painel</h1>
+						<p className={styles.subtitle}>Bem-vindo</p>
+					</div>
 
-				<form className={styles.form} onSubmit={handleSubmit} noValidate>
-					<label className={styles.label} htmlFor="username">
-						Usuário
-						<input
-							id="username"
-							name="username"
-							type="text"
-							autoComplete="username"
-							className={styles.input}
-							value={username}
-							onChange={(event) => setUsername(event.target.value)}
-							required
-							minLength={3}
-							disabled={busy}
-						/>
-					</label>
+					<form className={styles.form} onSubmit={handleSubmit} noValidate>
+						<label className={styles.label} htmlFor="username">
+							Usuário
+							<input
+								id="username"
+								name="username"
+								type="text"
+								autoComplete="username"
+								className={styles.input}
+								value={username}
+								onChange={(event) => setUsername(event.target.value)}
+								required
+								minLength={3}
+								disabled={busy}
+							/>
+						</label>
 
-					<label className={styles.label} htmlFor="password">
-						Senha
-						<input
-							id="password"
-							name="password"
-							type="password"
-							autoComplete="current-password"
-							className={styles.input}
-							value={password}
-							onChange={(event) => setPassword(event.target.value)}
-							required
-							minLength={1}
-							disabled={busy}
-						/>
-					</label>
+						<label className={styles.label} htmlFor="password">
+							Senha
+							<input
+								id="password"
+								name="password"
+								type="password"
+								autoComplete="current-password"
+								className={styles.input}
+								value={password}
+								onChange={(event) => setPassword(event.target.value)}
+								required
+								minLength={1}
+								disabled={busy}
+							/>
+						</label>
 
-					{error ? <p className={styles.error}>{error}</p> : null}
+						{error ? <p className={styles.error}>{error}</p> : null}
 
-					<button
-						type="submit"
-						className={styles.submit}
-						// Botão off se estiver ocupado ou se faltar usuário/senha
-						disabled={busy || !username.trim() || !password}
-					>
-						{submitting ? "Entrando…" : "Entrar"}
-					</button>
-				</form>
-			</section>
+						<button
+							type="submit"
+							className={styles.submit}
+							// Botão off se estiver ocupado ou se faltar usuário/senha
+							disabled={busy || !username.trim() || !password}
+						>
+							{submitting ? "Entrando…" : "Entrar"}
+						</button>
+					</form>
+				</section>
+			</div>
 		</div>
 	);
 }

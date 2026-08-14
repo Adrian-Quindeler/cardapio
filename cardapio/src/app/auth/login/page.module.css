@@ -1,9 +1,9 @@
 .main {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100dvh;
-  padding: 1.5rem;
   overflow: hidden;
   background:
     radial-gradient(circle at 15% 20%, rgba(244, 232, 26, 0.18), transparent 35%),
@@ -12,42 +12,48 @@
   color: var(--mamute-white);
 }
 
-.glow {
-  position: absolute;
-  width: min(70vw, 28rem);
-  height: min(70vw, 28rem);
-  border-radius: 50%;
-  background: rgba(244, 232, 26, 0.14);
-  filter: blur(40px);
-  animation: floatGlow 8s ease-in-out infinite;
-  pointer-events: none;
+.shell {
+  display: flex;
+  width: 100%;
+  min-height: 100dvh;
 }
 
-.card {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 26rem);
-  padding: 2rem 1.75rem 1.75rem;
-  border-radius: var(--mamute-radius);
-  background: var(--mamute-white);
-  color: var(--mamute-ink);
-  box-shadow: var(--mamute-shadow);
-  animation: riseIn 0.55s ease-out both;
-}
-
-.brand {
-  display: grid;
-  justify-items: center;
-  gap: 0.65rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
+.brandPane,
+.formPane {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .logo {
-  width: 8.5rem;
   height: auto;
-  border-radius: 50%;
+  border-radius: 30px;
+  width: min(18rem, 62vw);
+  border: 2px solid var(--mamute-ink);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
   animation: softPop 0.7s ease-out both;
+}
+
+.card {
+  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 26rem);
+  color: var(--mamute-ink);
+  padding: 2.5rem 2.25rem 2rem;
+  background: var(--mamute-white);
+  box-shadow: var(--mamute-shadow);
+  border-radius: var(--mamute-radius);
+  animation: riseIn 0.55s ease-out both;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .title {
@@ -60,7 +66,6 @@
 
 .subtitle {
   margin: 0;
-  max-width: 20rem;
   font-size: 0.98rem;
   line-height: 1.45;
   color: var(--mamute-muted);
@@ -68,7 +73,8 @@
 }
 
 .form {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
@@ -123,7 +129,7 @@
   border: none;
   border-radius: 999px;
   background: var(--mamute-yellow);
-  color: var(--mamute-blue);
+  color: var(--mamute-blue-deep);
   font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
@@ -131,7 +137,7 @@
     transform 0.18s ease,
     background-color 0.18s ease,
     box-shadow 0.18s ease;
-  box-shadow: 0 8px 0 rgba(46, 51, 120, 0.18);
+  box-shadow: 0 5px 5px rgba(46, 51, 120, 0.18);
 }
 
 .submit:hover:not(:disabled) {
@@ -180,16 +186,6 @@
   }
 }
 
-@keyframes floatGlow {
-  0%,
-  100% {
-    transform: translate(-10%, -8%);
-  }
-  50% {
-    transform: translate(12%, 10%);
-  }
-}
-
 @keyframes shake {
   0%,
   100% {
@@ -213,12 +209,27 @@
   }
 }
 
-@media (max-width: 480px) {
-  .card {
-    padding: 1.6rem 1.25rem 1.4rem;
+@media (max-width: 768px) {
+  .shell {
+    flex-direction: column;
+  }
+
+  .brandPane {
+    flex: 0 0 auto;
+    padding: 2rem 1.5rem 0.5rem;
+  }
+
+  .formPane {
+    flex: 1;
+    align-items: flex-start;
+    padding: 1rem 1.5rem 2rem;
   }
 
   .logo {
-    width: 7.25rem;
+    width: 7.5rem;
+  }
+
+  .card {
+    padding: 1.75rem 1.35rem 1.5rem;
   }
 }

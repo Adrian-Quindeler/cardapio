@@ -1,5 +1,115 @@
-/**
- * TODO: Estilos do AdminHeader.
- */
+.root {
+  display: grid;
+  grid-template-columns: minmax(2.75rem, 1fr) auto minmax(2.75rem, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 4.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--mamute-white);
+  border-bottom: 1px solid rgba(28, 31, 74, 0.06);
+}
 
-/* Vazio — estilos serão implementados nas próximas etapas. */
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.back,
+.backSpacer {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.7rem;
+}
+
+.back {
+  display: grid;
+  place-items: center;
+  border: none;
+  background: #eef0f5;
+  color: var(--mamute-ink);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.back:hover {
+  background: #e2e5ee;
+  transform: translateY(-1px);
+}
+
+.title {
+  margin: 0;
+  min-height: 1.6rem;
+  color: var(--mamute-blue);
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.userText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.userName {
+  overflow: hidden;
+  max-width: 16rem;
+  color: var(--mamute-ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userRole {
+  color: var(--mamute-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.userMuted {
+  margin: 0;
+  color: var(--mamute-muted);
+  font-size: 0.82rem;
+}
+
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--mamute-blue);
+  color: var(--mamute-white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 720px) {
+  .root {
+    padding: 0.65rem 0.9rem;
+  }
+
+  .userName {
+    max-width: 7.5rem;
+  }
+}

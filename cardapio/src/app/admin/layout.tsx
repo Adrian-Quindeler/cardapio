@@ -1,14 +1,17 @@
+import { AdminShell } from "@/components/admin/AdminShell";
+import { getStoreSettings } from "@/lib/home-data";
 import styles from "./layout.module.css";
 
-/**
- * TODO: Layout da área administrativa.
- * Incluir sidebar, header e estrutura do painel.
- * Acesso protegido por autenticação (middleware).
- */
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className={styles.layout}>{children}</div>;
+  const storeSettings = await getStoreSettings();
+
+  return (
+    <div className={styles.layout}>
+      <AdminShell storeSettings={storeSettings}>{children}</AdminShell>
+    </div>
+  );
 }
