@@ -1,14 +1,22 @@
 import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
-import styles from "./page.module.css";
+import { StoreHoursService } from "@/services/store-hours.service";
+import { StoreHoursForm } from "./StoreHoursForm";
+import styles from "../admin-form.module.css";
 
-/**
- * TODO: Módulo administrativo de horários de funcionamento.
- * Gerenciar abertura, fechamento e indicador de fechado por dia da semana.
- */
-export default function AdminStoreHoursPage() {
+export default async function AdminStoreHoursPage() {
+  const hours = await new StoreHoursService().list();
+
+  const initialHours = hours.map((h) => ({
+    dayOfWeek: h.dayOfWeek,
+    openTime: h.openTime,
+    closeTime: h.closeTime,
+    isClosed: h.isClosed,
+  }));
+
   return (
     <section className={styles.page}>
       <SetAdminTitle title="Horários da loja" />
+      <StoreHoursForm hours={initialHours} />
     </section>
   );
 }

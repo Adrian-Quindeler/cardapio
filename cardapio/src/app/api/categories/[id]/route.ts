@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/middleware/auth";
-import { SubcategoryService, SubcategoryServiceError } from "@/services/subcategory.service";
-import { createSubcategorySchema } from "@/validations/subcategory.validation";
+import { CategoryService, CategoryServiceError } from "@/services/category.service";
+import { updateCategorySchema } from "@/validations/category.validation";
 
 function errorResponse(error: unknown) {
-  if (error instanceof SubcategoryServiceError) {
+  if (error instanceof CategoryServiceError) {
     return NextResponse.json({ message: error.message }, { status: error.statusCode });
   }
   if (error instanceof Error) {
@@ -18,16 +18,17 @@ function errorResponse(error: unknown) {
   return NextResponse.json({ message: "Não foi possível processar a requisição" }, { status: 500 });
 }
 
-export async function GET() {
-  return NextResponse.json({ message: "TODO: Listar subcategorias via SubcategoryService" }, { status: 501 });
-}
+type RouteContext = {
+  params: Promise<{ id: string }>;
+};
 
-export async function POST(request: Request) {
+export async function PATCH(request: Request, context: RouteContext) {
   try {
     await requireAuth();
 
+    const { id } = await context.params;
     const body = await request.json();
-    const parsed = createSubcategorySchema.safeParse(body);
+    const parsed = updateCategorySchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -36,8 +37,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const subcategory = await new SubcategoryService().create(parsed.data);
-    return NextResponse.json(subcategory, { status: 201 });
+    const category = await new CategoryService().update(id, parsed.data);
+    return NextResponse.json(category);
   } catch (error) {
     return errorResponse(error);
   }

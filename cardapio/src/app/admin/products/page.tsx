@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { asc, eq } from "drizzle-orm";
 import { products, subcategories, categories } from "../../../../drizzle/schema";
 import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
-import styles from "./page.module.css";
+import styles from "../admin-list.module.css";
 
 
 export default async function AdminUsersPage() {

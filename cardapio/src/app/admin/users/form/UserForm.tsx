@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { UserRole, UserStatus } from "@/types/user";
-import styles from "./page.module.css";
+import styles from "../../admin-form.module.css";
 
 export type UserFormData = {
   id: string;

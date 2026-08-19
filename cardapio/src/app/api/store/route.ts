@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/middleware/auth";
-import { StoreHoursService } from "@/services/store-hours.service";
-import { updateStoreHoursSchema } from "@/validations/store-hours.validation";
+import { StoreSettingsService } from "@/services/store-settings.service";
+import { updateStoreSettingsSchema } from "@/validations/store-settings.validation";
 
-const service = new StoreHoursService();
+const service = new StoreSettingsService();
 
 export async function GET() {
   try {
-    const hours = await service.list();
-    return NextResponse.json(hours);
+    const settings = await service.get();
+    return NextResponse.json(settings);
   } catch {
     return NextResponse.json(
-      { message: "Não foi possível carregar os horários" },
+      { message: "Não foi possível carregar as configurações" },
       { status: 500 },
     );
   }
@@ -22,7 +22,7 @@ export async function PUT(request: Request) {
     await requireAuth();
 
     const body = await request.json();
-    const parsed = updateStoreHoursSchema.safeParse(body);
+    const parsed = updateStoreSettingsSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -31,8 +31,8 @@ export async function PUT(request: Request) {
       );
     }
 
-    const hours = await service.upsertAll(parsed.data);
-    return NextResponse.json(hours);
+    const settings = await service.upsert(parsed.data);
+    return NextResponse.json(settings);
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "UNAUTHORIZED") {
@@ -44,7 +44,7 @@ export async function PUT(request: Request) {
     }
 
     return NextResponse.json(
-      { message: "Não foi possível salvar os horários" },
+      { message: "Não foi possível salvar as configurações" },
       { status: 500 },
     );
   }

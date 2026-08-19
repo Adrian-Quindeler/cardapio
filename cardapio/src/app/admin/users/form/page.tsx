@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
 import { UserService } from "@/services/user.service";
 import { UserForm } from "./UserForm";
-import styles from "./page.module.css";
+import styles from "../../admin-form.module.css";
 
 type PageProps = {
   searchParams: Promise<{ id?: string }>;

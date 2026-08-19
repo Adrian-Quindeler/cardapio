@@ -1,15 +1,19 @@
 import { z } from "zod";
 
-/**
- * TODO: Schemas Zod de produtos.
- * Usados pelos Route Handlers para validar entrada antes de chamar o Service.
- */
+const statusSchema = z.enum(["active", "inactive"]);
 
 export const createProductSchema = z.object({
-  // TODO: name, description, subcategoryId, retailPrice, wholesalePrice, status, displayOrder
+  name: z.string().trim().min(1, "Nome é obrigatório"),
+  description: z.string().trim().optional().default(""),
+  subcategoryId: z.string().min(1, "Subcategoria é obrigatória"),
+  retailPrice: z.number().min(0, "Preço varejo deve ser >= 0"),
+  wholesalePrice: z.number().min(0, "Preço atacado deve ser >= 0"),
+  imageUrl: z.string().trim().optional().default(""),
+  displayOrder: z.number().int().min(0).default(0),
+  status: statusSchema.default("active"),
 });
 
-export const updateProductSchema = createProductSchema.partial();
+export const updateProductSchema = createProductSchema;
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;
