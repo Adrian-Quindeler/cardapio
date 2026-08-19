@@ -8,7 +8,6 @@ import { storeSettings } from "./store-settings";
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
   subcategories: many(subcategories),
-  products: many(products),
 }));
 
 export const subcategoriesRelations = relations(subcategories, ({ one, many }) => ({
@@ -20,10 +19,6 @@ export const subcategoriesRelations = relations(subcategories, ({ one, many }) =
 }));
 
 export const productsRelations = relations(products, ({ one }) => ({
-  category: one(categories, {
-    fields: [products.categoryId],
-    references: [categories.id],
-  }),
   subcategory: one(subcategories, {
     fields: [products.subcategoryId],
     references: [subcategories.id],

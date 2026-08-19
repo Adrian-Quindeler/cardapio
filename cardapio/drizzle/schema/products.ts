@@ -1,13 +1,11 @@
 import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
-import { categories } from "./categories";
 import { subcategories } from "./subcategories";
 
 export const products = sqliteTable("products", {
   id:             text("id").primaryKey(),
   name:           text("name").notNull(),
   description:    text("description"),
-  categoryId:     text("category_id").notNull().references(() => categories.id, { onDelete:             "restrict" }),
-  subcategoryId:  text("subcategory_id").notNull().references(() => subcategories.id, { onDelete:           "restrict" }),
+  subcategoryId:  text("subcategory_id").notNull().references(() => subcategories.id, { onDelete: "restrict" }),
   retailPrice:    real("retail_price").notNull(),
   wholesalePrice: real("wholesale_price").notNull(),
   imageUrl:       text("image_url"),

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/middleware/auth";
 import { UserService, UserServiceError } from "@/services/user.service";
-import { createUserSchema } from "@/validations/user.validation";
+import { updateUserSchema } from "@/validations/user.validation";
 
 function errorResponse(error: unknown) {
   if (error instanceof UserServiceError) {
@@ -26,19 +26,17 @@ function errorResponse(error: unknown) {
   );
 }
 
-export async function GET() {
-  return NextResponse.json(
-    { message: "TODO: Listar usuários via UserService" },
-    { status: 501 },
-  );
-}
+type RouteContext = {
+  params: Promise<{ id: string }>;
+};
 
-export async function POST(request: Request) {
+export async function PATCH(request: Request, context: RouteContext) {
   try {
     await requireAuth();
 
+    const { id } = await context.params;
     const body = await request.json();
-    const parsed = createUserSchema.safeParse(body);
+    const parsed = updateUserSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -47,8 +45,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = await new UserService().create(parsed.data);
-    return NextResponse.json(user, { status: 201 });
+    const user = await new UserService().update(id, parsed.data);
+    return NextResponse.json(user);
   } catch (error) {
     return errorResponse(error);
   }

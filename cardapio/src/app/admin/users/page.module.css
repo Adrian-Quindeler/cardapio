@@ -1,5 +1,85 @@
-/**
- * TODO: Estilos da página de usuários (admin).
- */
+.page {
+  width: 100%;
+}
 
-/* Vazio — estilos serão implementados nas próximas etapas. */
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.newButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: var(--mamute-yellow);
+  color: var(--mamute-blue-deep);
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 5px 5px rgba(46, 51, 120, 0.18);
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.newButton:hover {
+  background: var(--mamute-yellow-hover);
+  transform: translateY(-2px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--mamute-white);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(28, 31, 74, 0.08);
+}
+
+.table th,
+.table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eceff5;
+}
+
+.table th {
+  color: var(--mamute-ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: #f7f8fc;
+}
+
+.table td {
+  color: #3a3f63;
+  font-size: 0.95rem;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.clickableRow {
+  position: relative;
+}
+
+.clickableRow:hover td {
+  background: #f7f8fc;
+}
+
+.stretchedLink {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.stretchedLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}

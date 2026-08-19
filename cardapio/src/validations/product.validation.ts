@@ -6,7 +6,7 @@ import { z } from "zod";
  */
 
 export const createProductSchema = z.object({
-  // TODO: name, description, categoryId, subcategoryId, retailPrice, wholesalePrice, status, displayOrder
+  // TODO: name, description, subcategoryId, retailPrice, wholesalePrice, status, displayOrder
 });
 
 export const updateProductSchema = createProductSchema.partial();
