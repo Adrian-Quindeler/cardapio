@@ -5,6 +5,8 @@ import Header from "@/components/home/Header";
 import Hero from "@/components/home/Hero";
 import styles from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
 	const { categoryRows, categoryList, storeSettings, storeHours } = await getHomePageData();
 

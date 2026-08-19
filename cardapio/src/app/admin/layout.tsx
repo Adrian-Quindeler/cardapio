@@ -2,6 +2,8 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { getStoreSettings } from "@/lib/home-data";
 import styles from "./layout.module.css";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminLayout({
   children,
 }: Readonly<{
