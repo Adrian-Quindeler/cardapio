@@ -1,6 +1,6 @@
-# Mamute
+# Mamute BR 262
 
-Cardápio digital e painel administrativo para sorveteria.
+Cardápio digital e painel administrativo para a sorveteria.
 
 [Português](README.md) · [English](README.en.md)
 
@@ -13,7 +13,7 @@ A aplicação fica em [`cardapio/`](cardapio/). A home é pública; o painel em 
 
 ## Sobre
 
-O **Mamute** é um cardápio online: o cliente consulta produtos, preços e se a loja está aberta. Quem administra o catálogo, os horários e os usuários entra pelo painel autenticado.
+O sistema é um cardápio online: o cliente consulta produtos, preços e se a loja está aberta. Quem administra o catálogo, os horários e os usuários entra pelo painel autenticado.
 
 ## Funcionalidades
 
