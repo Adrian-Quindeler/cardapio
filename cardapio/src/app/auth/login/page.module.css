@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
-  overflow: hidden;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 15% 20%, rgba(244, 232, 26, 0.18), transparent 35%),
     radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.12), transparent 40%),

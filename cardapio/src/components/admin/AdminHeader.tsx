@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Menu } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import styles from "./AdminHeader.module.css";
 
@@ -12,7 +12,12 @@ function initialsFromName(name: string) {
   return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
 }
 
-export function AdminHeader() {
+type AdminHeaderProps = {
+  mobileOpen: boolean;
+  onMenuClick: () => void;
+};
+
+export function AdminHeader({ mobileOpen, onMenuClick }: AdminHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { session, isPending } = useAuth();
@@ -26,6 +31,16 @@ export function AdminHeader() {
   return (
     <header className={styles.root}>
       <div className={styles.left}>
+        <button
+          type="button"
+          className={styles.menuButton}
+          onClick={onMenuClick}
+          aria-expanded={mobileOpen}
+          aria-controls="admin-sidebar"
+          aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+        >
+          <Menu size={18} strokeWidth={2.2} />
+        </button>
         {showBack ? (
           <button
             type="button"

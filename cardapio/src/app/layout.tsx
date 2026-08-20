@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import styles from "./layout.module.css";
 
@@ -26,11 +25,6 @@ export default function RootLayout({
       <body className={`${quicksand.variable} ${styles.body}`}>
         {children}
       </body>
-
-      <Script
-        src="https://kit.fontawesome.com/54dc5a90e7.js"
-        crossOrigin="anonymous"
-      />
     </html>
   );
 }

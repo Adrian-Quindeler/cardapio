@@ -48,11 +48,14 @@ function LoginForm() {
 			});
 
 			if (result.error) {
-				setError(
-					result.error.message === "Usuário inativo"
-						? "Essa conta está inativa. Fale com o administrador."
-						: "Usuário ou senha incorretos",
-				);
+				const message = result.error.message ?? "";
+				if (message === "Usuário inativo") {
+					setError("Essa conta está inativa. Fale com o administrador.");
+				} else if (/invalid origin/i.test(message)) {
+					setError("Origem não autorizada. Verifique a URL de acesso.");
+				} else {
+					setError("Usuário ou senha incorretos");
+				}
 				return;
 			}
 
@@ -105,7 +108,7 @@ function LoginForm() {
 								onChange={(event) => setUsername(event.target.value)}
 								required
 								minLength={3}
-								disabled={busy}
+								disabled={submitting}
 							/>
 						</label>
 
@@ -121,7 +124,7 @@ function LoginForm() {
 								onChange={(event) => setPassword(event.target.value)}
 								required
 								minLength={1}
-								disabled={busy}
+								disabled={submitting}
 							/>
 						</label>
 

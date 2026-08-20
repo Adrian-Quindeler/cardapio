@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
+import { IceCreamCone } from "lucide-react";
 import styles from "./styles.module.css";
 
 interface ProductCardProps {
@@ -38,7 +39,7 @@ export default function ProductCard({ product, style }: ProductCardProps) {
 					/>
 				) : (
 					<div className={styles.placeholder} aria-hidden="true">
-						<i className="fa-solid fa-ice-cream" />
+						<IceCreamCone size={40} strokeWidth={1.75} />
 					</div>
 				)}
 			</div>

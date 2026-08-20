@@ -13,13 +13,35 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 0.4rem;
 }
 
+.menuButton {
+  display: none;
+}
+
+.menuButton,
 .back,
 .backSpacer {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.7rem;
+}
+
+.menuButton {
+  place-items: center;
+  border: none;
+  background: #eef0f5;
+  color: var(--mamute-ink);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.menuButton:hover {
+  background: #e2e5ee;
+  transform: translateY(-1px);
 }
 
 .back {
@@ -40,6 +62,8 @@
 }
 
 .title {
+  overflow: hidden;
+  min-width: 0;
   margin: 0;
   min-height: 1.6rem;
   color: var(--mamute-blue);
@@ -47,6 +71,7 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   text-align: center;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -106,10 +131,24 @@
 
 @media (max-width: 720px) {
   .root {
+    grid-template-columns: auto minmax(0, 1fr) auto;
     padding: 0.65rem 0.9rem;
   }
 
-  .userName {
-    max-width: 7.5rem;
+  .menuButton {
+    display: grid;
+  }
+
+  .backSpacer {
+    display: none;
+  }
+
+  .title {
+    text-align: left;
+  }
+
+  .userText,
+  .userMuted {
+    display: none;
   }
 }

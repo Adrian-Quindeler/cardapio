@@ -49,12 +49,15 @@
 }
 
 .brandName {
+  overflow: hidden;
   flex: 1;
   min-width: 0;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .toggle {
@@ -180,10 +183,90 @@
   padding-inline: 0.5rem;
 }
 
+.root[data-collapsed="true"] .brandName,
+.root[data-collapsed="true"] .sectionLabel,
+.root[data-collapsed="true"] .label {
+  display: none;
+}
+
+.close {
+  display: none;
+}
+
 @media (max-width: 720px) {
-  .root:not([data-collapsed="true"]) {
-    position: sticky;
+  .root,
+  .root[data-collapsed="true"] {
+    position: fixed;
     top: 0;
-    z-index: 20;
+    left: 0;
+    bottom: 0;
+    z-index: 40;
+    width: min(16.5rem, 86vw);
+    min-height: 100dvh;
+    padding-inline: 0.85rem;
+    align-items: stretch;
+    overflow-y: auto;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-100%);
+    transition:
+      transform 0.2s ease,
+      visibility 0.2s ease;
+  }
+
+  .root[data-mobile-open="true"] {
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
+  .root[data-collapsed="true"] .brand {
+    display: flex;
+  }
+
+  .root[data-collapsed="true"] .brandName {
+    display: block;
+  }
+
+  .root[data-collapsed="true"] .sectionLabel {
+    display: block;
+  }
+
+  .root[data-collapsed="true"] .label {
+    display: inline;
+  }
+
+  .root[data-collapsed="true"] .link {
+    justify-content: flex-start;
+    padding-inline: 0.7rem;
+  }
+
+  .root[data-collapsed="true"] .logout {
+    padding-inline: 0.75rem;
+  }
+
+  .toggle {
+    display: none;
+  }
+
+  .close {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    margin-left: auto;
+    width: 2.15rem;
+    height: 2.15rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.55rem;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.78);
+    cursor: pointer;
+  }
+
+  .close:hover,
+  .close:focus-visible {
+    color: var(--mamute-white);
+    background: rgba(255, 255, 255, 0.1);
   }
 }

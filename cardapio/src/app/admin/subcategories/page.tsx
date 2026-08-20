@@ -27,6 +27,7 @@ export default async function AdminUsersPage() {
 					Novo
 				</Link>
 			</div>
+			<div className={styles.tableWrap}>
 			<table className={styles.table}>
 				<thead>
 					<tr>
@@ -56,6 +57,7 @@ export default async function AdminUsersPage() {
 				})}
 				</tbody>
 			</table>
+			</div>
 		</section>
 	);
 }

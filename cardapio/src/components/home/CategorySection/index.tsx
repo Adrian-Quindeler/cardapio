@@ -30,7 +30,12 @@ interface CategorySectionProps {
 }
 
 export default function CategorySection({ category, subcategoryList }: CategorySectionProps) {
-	const [activeSubcategory, setActiveSubcategory] = useState(subcategoryList[0]);
+	const [activeSubcategoryId, setActiveSubcategoryId] = useState(
+		subcategoryList[0]?.id ?? "",
+	);
+	const activeSubcategory =
+		subcategoryList.find((subcategory) => subcategory.id === activeSubcategoryId) ??
+		subcategoryList[0];
 	const description = category.description || "Escolha o seu favorito";
 
 	return (
@@ -44,7 +49,7 @@ export default function CategorySection({ category, subcategoryList }: CategoryS
 
 			<div className={styles.chips} role="tablist" aria-label={`Subcategorias de ${category.name}`}>
 				{subcategoryList.map((subcategory) => {
-					const isActive = activeSubcategory?.id === subcategory.id;
+					const isActive = activeSubcategoryId === subcategory.id;
 
 					return (
 						<button
@@ -57,7 +62,7 @@ export default function CategorySection({ category, subcategoryList }: CategoryS
 									? `${styles.chip} ${styles.chipActive}`
 									: styles.chip
 							}
-							onClick={() => setActiveSubcategory(subcategory)}
+							onClick={() => setActiveSubcategoryId(subcategory.id)}
 						>
 							{subcategory.name}
 						</button>

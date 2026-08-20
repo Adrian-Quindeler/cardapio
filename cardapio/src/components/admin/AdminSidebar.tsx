@@ -15,6 +15,7 @@ import {
   Store,
   Tags,
   Users,
+  X,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import styles from "./AdminSidebar.module.css";
@@ -36,7 +37,10 @@ function isActivePath(pathname: string, href: string) {
 
 type AdminSidebarProps = {
   collapsed: boolean;
+  mobileOpen: boolean;
   onToggle: () => void;
+  onClose: () => void;
+  onNavigate: () => void;
   storeSettings: {
     brandName: string;
     logoUrl: string | null;
@@ -45,7 +49,10 @@ type AdminSidebarProps = {
 
 export function AdminSidebar({
   collapsed,
+  mobileOpen,
   onToggle,
+  onClose,
+  onNavigate,
   storeSettings,
 }: AdminSidebarProps) {
   const pathname = usePathname();
@@ -59,6 +66,7 @@ export function AdminSidebar({
     setSigningOut(true);
     try {
       await logout();
+      onNavigate();
       router.replace("/auth/login");
       router.refresh();
     } finally {
@@ -67,7 +75,12 @@ export function AdminSidebar({
   }
 
   return (
-    <aside className={styles.root} data-collapsed={collapsed ? "true" : "false"}>
+    <aside
+      id="admin-sidebar"
+      className={styles.root}
+      data-collapsed={collapsed ? "true" : "false"}
+      data-mobile-open={mobileOpen ? "true" : "false"}
+    >
       <div className={styles.brand}>
         <span className={styles.logo}>
           <Image
@@ -77,7 +90,7 @@ export function AdminSidebar({
             height={40}
           />
         </span>
-        {!collapsed ? <span className={styles.brandName}>{brandName}</span> : null}
+        <span className={styles.brandName}>{brandName}</span>
         <button
           type="button"
           className={styles.toggle}
@@ -90,10 +103,18 @@ export function AdminSidebar({
             <ChevronsLeft size={18} strokeWidth={2.2} />
           )}
         </button>
+        <button
+          type="button"
+          className={styles.close}
+          onClick={onClose}
+          aria-label="Fechar menu"
+        >
+          <X size={18} strokeWidth={2.2} />
+        </button>
       </div>
 
       <nav className={styles.nav} aria-label="Acesso rápido">
-        {!collapsed ? <p className={styles.sectionLabel}>Acesso rápido</p> : null}
+        <p className={styles.sectionLabel}>Acesso rápido</p>
         {QUICK_LINKS.map((item) => {
           const Icon = item.icon;
           const active = isActivePath(pathname, item.href);
@@ -105,9 +126,10 @@ export function AdminSidebar({
               className={styles.link}
               data-active={active ? "true" : "false"}
               title={collapsed ? item.label : undefined}
+              onClick={onNavigate}
             >
               <Icon size={18} strokeWidth={2.1} />
-              {!collapsed ? <span>{item.label}</span> : null}
+              <span className={styles.label}>{item.label}</span>
             </Link>
           );
         })}
@@ -121,9 +143,9 @@ export function AdminSidebar({
         title={collapsed ? "Sair da conta" : undefined}
       >
         <LogOut size={18} strokeWidth={2.1} />
-        {!collapsed ? (
-          <span>{signingOut ? "Saindo…" : "Sair da conta"}</span>
-        ) : null}
+        <span className={styles.label}>
+          {signingOut ? "Saindo…" : "Sair da conta"}
+        </span>
       </button>
     </aside>
   );

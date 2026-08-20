@@ -19,6 +19,15 @@
   overflow: auto;
 }
 
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  border: none;
+  background: rgba(16, 18, 48, 0.45);
+  cursor: pointer;
+}
+
 @media (max-width: 720px) {
   .content {
     padding: 1rem;
