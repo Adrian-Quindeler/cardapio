@@ -12,6 +12,7 @@ export interface Product {
   retailPrice: number;
   wholesalePrice: number;
   imageUrl: string | null;
+  imagePublicId: string | null;
   status: ProductStatus;
   displayOrder: number;
   createdAt: Date;

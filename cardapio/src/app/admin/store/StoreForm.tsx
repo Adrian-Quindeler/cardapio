@@ -1,13 +1,16 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "../admin-form.module.css";
 
 export type StoreFormData = {
   brandName: string;
   logoUrl: string;
+  logoPublicId: string;
   heroImageUrl: string;
+  heroPublicId: string;
   heroAlt: string;
 };
 
@@ -15,15 +18,73 @@ type StoreFormProps = {
   settings: StoreFormData | null;
 };
 
+type UploadResult = {
+  imageUrl: string;
+  imagePublicId: string;
+};
+
+async function uploadImageFile(file: File, folder: string): Promise<UploadResult> {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", folder);
+
+  const response = await fetch("/api/images", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = (await response.json().catch(() => null)) as UploadResult & {
+    message?: string;
+  } | null;
+
+  if (!response.ok || !data?.imageUrl || !data?.imagePublicId) {
+    throw new Error(data?.message ?? "Não foi possível enviar a imagem.");
+  }
+
+  return { imageUrl: data.imageUrl, imagePublicId: data.imagePublicId };
+}
+
 export function StoreForm({ settings }: StoreFormProps) {
   const router = useRouter();
 
   const [brandName, setBrandName] = useState(settings?.brandName ?? "");
   const [logoUrl, setLogoUrl] = useState(settings?.logoUrl ?? "");
+  const [logoPublicId, setLogoPublicId] = useState(settings?.logoPublicId ?? "");
   const [heroImageUrl, setHeroImageUrl] = useState(settings?.heroImageUrl ?? "");
+  const [heroPublicId, setHeroPublicId] = useState(settings?.heroPublicId ?? "");
   const [heroAlt, setHeroAlt] = useState(settings?.heroAlt ?? "");
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [heroFile, setHeroFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(settings?.logoUrl || null);
+  const [heroPreview, setHeroPreview] = useState<string | null>(settings?.heroImageUrl || null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  function handleLogoChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    setLogoFile(file);
+    if (file) setLogoPreview(URL.createObjectURL(file));
+  }
+
+  function handleHeroChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    setHeroFile(file);
+    if (file) setHeroPreview(URL.createObjectURL(file));
+  }
+
+  function handleRemoveLogo() {
+    setLogoFile(null);
+    setLogoUrl("");
+    setLogoPublicId("");
+    setLogoPreview(null);
+  }
+
+  function handleRemoveHero() {
+    setHeroFile(null);
+    setHeroImageUrl("");
+    setHeroPublicId("");
+    setHeroPreview(null);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,13 +92,32 @@ export function StoreForm({ settings }: StoreFormProps) {
     setSubmitting(true);
 
     try {
+      let finalLogoUrl = logoUrl;
+      let finalLogoPublicId = logoPublicId;
+      let finalHeroImageUrl = heroImageUrl;
+      let finalHeroPublicId = heroPublicId;
+
+      if (logoFile) {
+        const uploaded = await uploadImageFile(logoFile, "cardapio/store/logo");
+        finalLogoUrl = uploaded.imageUrl;
+        finalLogoPublicId = uploaded.imagePublicId;
+      }
+
+      if (heroFile) {
+        const uploaded = await uploadImageFile(heroFile, "cardapio/store/hero");
+        finalHeroImageUrl = uploaded.imageUrl;
+        finalHeroPublicId = uploaded.imagePublicId;
+      }
+
       const response = await fetch("/api/store", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           brandName: brandName.trim(),
-          logoUrl: logoUrl.trim(),
-          heroImageUrl: heroImageUrl.trim(),
+          logoUrl: finalLogoUrl.trim(),
+          logoPublicId: finalLogoPublicId.trim(),
+          heroImageUrl: finalHeroImageUrl.trim(),
+          heroPublicId: finalHeroPublicId.trim(),
           heroAlt: heroAlt.trim(),
         }),
       });
@@ -52,8 +132,12 @@ export function StoreForm({ settings }: StoreFormProps) {
       }
 
       router.refresh();
-    } catch {
-      setError("Algo deu errado. Tente novamente em instantes.");
+    } catch (uploadError) {
+      setError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Algo deu errado. Tente novamente em instantes.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -76,31 +160,73 @@ export function StoreForm({ settings }: StoreFormProps) {
           />
         </label>
 
-        <label className={styles.label} htmlFor="logoUrl">
-          URL do logo
+        <div className={styles.label}>
+          Logo
           <input
-            id="logoUrl"
-            name="logoUrl"
-            type="text"
+            id="logo"
+            name="logo"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
             className={styles.input}
-            value={logoUrl}
-            onChange={(e) => setLogoUrl(e.target.value)}
+            onChange={handleLogoChange}
             disabled={submitting}
           />
-        </label>
+          {logoPreview ? (
+            <div style={{ marginTop: "0.75rem" }}>
+              <Image
+                src={logoPreview}
+                alt="Pré-visualização do logo"
+                width={120}
+                height={120}
+                unoptimized
+                style={{ objectFit: "contain", borderRadius: "4px" }}
+              />
+              <button
+                type="button"
+                className={styles.cancel}
+                onClick={handleRemoveLogo}
+                disabled={submitting}
+                style={{ marginTop: "0.5rem" }}
+              >
+                Remover logo
+              </button>
+            </div>
+          ) : null}
+        </div>
 
-        <label className={styles.label} htmlFor="heroImageUrl">
-          URL da imagem hero
+        <div className={styles.label}>
+          Imagem hero
           <input
-            id="heroImageUrl"
-            name="heroImageUrl"
-            type="text"
+            id="heroImage"
+            name="heroImage"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
             className={styles.input}
-            value={heroImageUrl}
-            onChange={(e) => setHeroImageUrl(e.target.value)}
+            onChange={handleHeroChange}
             disabled={submitting}
           />
-        </label>
+          {heroPreview ? (
+            <div style={{ marginTop: "0.75rem" }}>
+              <Image
+                src={heroPreview}
+                alt="Pré-visualização do hero"
+                width={320}
+                height={120}
+                unoptimized
+                style={{ objectFit: "cover", borderRadius: "4px" }}
+              />
+              <button
+                type="button"
+                className={styles.cancel}
+                onClick={handleRemoveHero}
+                disabled={submitting}
+                style={{ marginTop: "0.5rem" }}
+              >
+                Remover imagem hero
+              </button>
+            </div>
+          ) : null}
+        </div>
 
         <label className={styles.label} htmlFor="heroAlt">
           Alt da imagem hero

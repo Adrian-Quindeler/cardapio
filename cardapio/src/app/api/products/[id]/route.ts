@@ -43,3 +43,15 @@ export async function PATCH(request: Request, context: RouteContext) {
     return errorResponse(error);
   }
 }
+
+export async function DELETE(_request: Request, context: RouteContext) {
+  try {
+    await requireAuth();
+
+    const { id } = await context.params;
+    await new ProductService().delete(id);
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    return errorResponse(error);
+  }
+}

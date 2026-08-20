@@ -19,7 +19,10 @@ export default async function HomePage() {
 			/>
 
 			<main className={styles.main}>
-				<Hero />
+				<Hero
+					heroImageUrl={storeSettings?.heroImageUrl}
+					heroAlt={storeSettings?.heroAlt}
+				/>
 
 				{categoryList.map((category) => {
 					const { subcategories: subcategoryList, ...categoryData } = category;

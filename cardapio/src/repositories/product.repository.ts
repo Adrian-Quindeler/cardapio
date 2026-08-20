@@ -12,6 +12,7 @@ type CreateProductRecord = {
   retailPrice: number;
   wholesalePrice: number;
   imageUrl: string;
+  imagePublicId: string;
   displayOrder: number;
   status: string;
 };
@@ -40,6 +41,7 @@ export class ProductRepository {
       retailPrice: data.retailPrice,
       wholesalePrice: data.wholesalePrice,
       imageUrl: data.imageUrl || null,
+      imagePublicId: data.imagePublicId || null,
       displayOrder: data.displayOrder,
       status: data.status,
       createdAt: now,
@@ -61,6 +63,7 @@ export class ProductRepository {
         retailPrice: data.retailPrice,
         wholesalePrice: data.wholesalePrice,
         imageUrl: data.imageUrl || null,
+        imagePublicId: data.imagePublicId || null,
         displayOrder: data.displayOrder,
         status: data.status,
         updatedAt: new Date(),
@@ -70,5 +73,9 @@ export class ProductRepository {
     const updated = await this.findById(id);
     if (!updated) throw new Error("Falha ao atualizar produto");
     return updated;
+  }
+
+  async delete(id: string): Promise<void> {
+    await db.delete(products).where(eq(products.id, id));
   }
 }

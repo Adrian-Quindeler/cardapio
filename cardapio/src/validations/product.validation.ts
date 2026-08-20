@@ -9,6 +9,7 @@ export const createProductSchema = z.object({
   retailPrice: z.number().min(0, "Preço varejo deve ser >= 0"),
   wholesalePrice: z.number().min(0, "Preço atacado deve ser >= 0"),
   imageUrl: z.string().trim().optional().default(""),
+  imagePublicId: z.string().trim().optional().default(""),
   displayOrder: z.number().int().min(0).default(0),
   status: statusSchema.default("active"),
 });

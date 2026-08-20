@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "../../admin-form.module.css";
 
@@ -12,6 +13,7 @@ export type ProductFormData = {
   retailPrice: number;
   wholesalePrice: number;
   imageUrl: string;
+  imagePublicId: string;
   displayOrder: number;
   status: string;
 };
@@ -26,6 +28,32 @@ type ProductFormProps = {
   subcategories: SubcategoryOption[];
 };
 
+type UploadResult = {
+  imageUrl: string;
+  imagePublicId: string;
+};
+
+async function uploadImageFile(file: File): Promise<UploadResult> {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", "cardapio/products");
+
+  const response = await fetch("/api/images", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = (await response.json().catch(() => null)) as UploadResult & {
+    message?: string;
+  } | null;
+
+  if (!response.ok || !data?.imageUrl || !data?.imagePublicId) {
+    throw new Error(data?.message ?? "Não foi possível enviar a imagem.");
+  }
+
+  return { imageUrl: data.imageUrl, imagePublicId: data.imagePublicId };
+}
+
 export function ProductForm({ product, subcategories }: ProductFormProps) {
   const router = useRouter();
   const isEdit = Boolean(product);
@@ -36,28 +64,57 @@ export function ProductForm({ product, subcategories }: ProductFormProps) {
   const [retailPrice, setRetailPrice] = useState(product?.retailPrice ?? 0);
   const [wholesalePrice, setWholesalePrice] = useState(product?.wholesalePrice ?? 0);
   const [imageUrl, setImageUrl] = useState(product?.imageUrl ?? "");
+  const [imagePublicId, setImagePublicId] = useState(product?.imagePublicId ?? "");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(product?.imageUrl || null);
   const [displayOrder, setDisplayOrder] = useState(product?.displayOrder ?? 0);
   const [status, setStatus] = useState(product?.status ?? "active");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    setImageFile(file);
+
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  }
+
+  function handleRemoveImage() {
+    setImageFile(null);
+    setImageUrl("");
+    setImagePublicId("");
+    setPreviewUrl(null);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setSubmitting(true);
 
-    const payload = {
-      name: name.trim(),
-      description: description.trim(),
-      subcategoryId,
-      retailPrice,
-      wholesalePrice,
-      imageUrl: imageUrl.trim(),
-      displayOrder,
-      status,
-    };
-
     try {
+      let finalImageUrl = imageUrl;
+      let finalImagePublicId = imagePublicId;
+
+      if (imageFile) {
+        const uploaded = await uploadImageFile(imageFile);
+        finalImageUrl = uploaded.imageUrl;
+        finalImagePublicId = uploaded.imagePublicId;
+      }
+
+      const payload = {
+        name: name.trim(),
+        description: description.trim(),
+        subcategoryId,
+        retailPrice,
+        wholesalePrice,
+        imageUrl: finalImageUrl.trim(),
+        imagePublicId: finalImagePublicId.trim(),
+        displayOrder,
+        status,
+      };
+
       const response = await fetch(
         isEdit ? `/api/products/${product?.id}` : "/api/products",
         {
@@ -78,8 +135,12 @@ export function ProductForm({ product, subcategories }: ProductFormProps) {
 
       router.push("/admin/products");
       router.refresh();
-    } catch {
-      setError("Algo deu errado. Tente novamente em instantes.");
+    } catch (uploadError) {
+      setError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Algo deu errado. Tente novamente em instantes.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -131,18 +192,39 @@ export function ProductForm({ product, subcategories }: ProductFormProps) {
           />
         </label>
 
-        <label className={styles.label} htmlFor="imageUrl">
-          URL da imagem
+        <div className={styles.label}>
+          Imagem
           <input
-            id="imageUrl"
-            name="imageUrl"
-            type="text"
+            id="image"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
             className={styles.input}
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            onChange={handleImageChange}
             disabled={submitting}
           />
-        </label>
+          {previewUrl ? (
+            <div style={{ marginTop: "0.75rem" }}>
+              <Image
+                src={previewUrl}
+                alt="Pré-visualização"
+                width={160}
+                height={160}
+                unoptimized
+                style={{ objectFit: "cover", borderRadius: "4px" }}
+              />
+              <button
+                type="button"
+                className={styles.cancel}
+                onClick={handleRemoveImage}
+                disabled={submitting}
+                style={{ marginTop: "0.5rem" }}
+              >
+                Remover imagem
+              </button>
+            </div>
+          ) : null}
+        </div>
 
         <label className={styles.label} htmlFor="retailPrice">
           Preço varejo

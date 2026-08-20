@@ -54,6 +54,8 @@ export async function getStoreSettings() {
 		.select({
 			brandName: storeSettings.brandName,
 			logoUrl: storeSettings.logoUrl,
+			heroImageUrl: storeSettings.heroImageUrl,
+			heroAlt: storeSettings.heroAlt,
 		})
 		.from(storeSettings)
 		.orderBy(desc(storeSettings.updatedAt))

@@ -10,7 +10,9 @@ export default async function AdminStorePage() {
     ? {
         brandName: settings.brandName,
         logoUrl: settings.logoUrl ?? "",
+        logoPublicId: settings.logoPublicId ?? "",
         heroImageUrl: settings.heroImageUrl ?? "",
+        heroPublicId: settings.heroPublicId ?? "",
         heroAlt: settings.heroAlt ?? "",
       }
     : null;

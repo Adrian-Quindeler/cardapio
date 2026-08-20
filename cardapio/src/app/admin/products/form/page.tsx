@@ -30,6 +30,7 @@ export default async function ProductFormPage({ searchParams }: PageProps) {
         retailPrice: products.retailPrice,
         wholesalePrice: products.wholesalePrice,
         imageUrl: products.imageUrl,
+        imagePublicId: products.imagePublicId,
         displayOrder: products.displayOrder,
         status: products.status,
       })
@@ -49,6 +50,7 @@ export default async function ProductFormPage({ searchParams }: PageProps) {
       retailPrice: rows[0].retailPrice,
       wholesalePrice: rows[0].wholesalePrice,
       imageUrl: rows[0].imageUrl ?? "",
+      imagePublicId: rows[0].imagePublicId ?? "",
       displayOrder: rows[0].displayOrder,
       status: rows[0].status,
     };

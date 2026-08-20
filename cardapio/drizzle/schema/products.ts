@@ -9,6 +9,7 @@ export const products = sqliteTable("products", {
   retailPrice:    real("retail_price").notNull(),
   wholesalePrice: real("wholesale_price").notNull(),
   imageUrl:       text("image_url"),
+  imagePublicId:  text("image_public_id"),
   status:         text("status").notNull().default("active"),
   displayOrder:   integer("display_order").notNull().default(0),
   createdAt:      integer("created_at", { mode: "timestamp_ms" }).notNull(),
