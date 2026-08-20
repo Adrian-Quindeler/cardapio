@@ -1,161 +1,155 @@
-# Projeto: Cardápio Online para Sorveteria
+# Mamute
 
-## Visão Geral
+Cardápio digital e painel administrativo para sorveteria.
 
-Este projeto consiste no desenvolvimento de um sistema web para uma sorveteria, dividido em duas áreas: uma área pública para os clientes consultarem os produtos e uma área administrativa para gerenciamento do sistema.
+[Português](README.md) · [English](README.en.md)
 
----
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Turso](https://img.shields.io/badge/Turso-SQLite-4FF8D2?logo=turso)](https://turso.tech/)
+[![Better Auth](https://img.shields.io/badge/Better%20Auth-authentication-A3E635)](https://www.better-auth.com/)
 
-# Stack
+A aplicação fica em [`cardapio/`](cardapio/). A home é pública; o painel em `/admin` exige login.
 
-O sistema utiliza as tecnologias abaixo:
+## Sobre
 
-* Next.js (App Router)
-* TypeScript
-* CSS Modules
-* Bootstrap
-* Turso (DB SQLite)
-* Drizzle ORM
-* Better Auth
-* Zod
-* Lucide React
+O **Mamute** é um cardápio online: o cliente consulta produtos, preços e se a loja está aberta. Quem administra o catálogo, os horários e os usuários entra pelo painel autenticado.
 
----
+## Funcionalidades
 
-# Objetivos do Projeto
+### Área pública (`/`)
 
-O sistema permite que clientes consultem facilmente o catálogo da sorveteria enquanto administradores possam gerenciar todas as informações através de um painel protegido por autenticação.
+- Categorias, subcategorias e produtos ativos
+- Preço de varejo e de atacado
+- Imagem do produto
+- Nome, logo e imagem de destaque da loja
+- Horários de funcionamento e indicador de aberto/fechado
+- Sem autenticação
 
-O sistema foi pensado para crescer futuramente, portanto toda a estrutura é modular e preparada para expansão.
+Os dados são carregados no servidor ([`cardapio/src/lib/home-data.ts`](cardapio/src/lib/home-data.ts)) e enviados por props até a interface. Trocar de subcategoria na tela não dispara nova consulta ao banco.
 
----
+### Área administrativa (`/admin`)
 
-# Área Pública (Cliente)
+- Login em `/auth/login` (usuário e senha). Cadastro público desligado
+- Rotas `/admin` protegidas por middleware
+- Usuários inativos não entram
+- Papéis `admin` e `manager`
+- Dashboard com atalhos
+- CRUD de categorias, subcategorias, produtos e usuários
+- Horários da loja
+- Informações da loja (marca, logo e hero), com upload via Cloudinary
+- Menu lateral em drawer no celular
 
-A área do cliente é totalmente pública e não exige autenticação. Ela funciona como um cardápio digital:
+As listagens leem o banco nas próprias páginas. Criar e editar passam pela API.
 
-* Categorias
-* Subcategorias
-* Produtos
-* Preço de varejo
-* Preço de atacado
-* Horário de funcionamento da loja
-* Informação indicando se a loja está aberta ou fechada naquele momento
+## Stack
 
-### Fluxo de dados (leitura do cardápio)
+| Camada | Tecnologia |
+| --- | --- |
+| App | Next.js 16 (App Router), React 19, TypeScript |
+| UI | CSS Modules, Lucide |
+| Banco | Turso (SQLite), Drizzle ORM |
+| Auth | Better Auth |
+| Validação | Zod |
+| Imagens | Cloudinary |
 
-Os dados são carregados no servidor e passados por props até a UI:
+## Arquitetura
 
-```
-page.tsx (Server Component)
-  → home-data.ts (consultas Drizzle)
-  → Header / CategorySection
-       → SubcategorySection
-            → ProductCard
-```
+Há dois caminhos de dados.
 
-Arquivos principais:
+**Cardápio (leitura):** Server Component → `home-data.ts` → Turso.
 
-* `cardapio/src/app/page.tsx` — orquestra a página e distribui os dados
-* `cardapio/src/lib/home-data.ts` — buscas e montagem da árvore categoria → subcategoria → produtos
-* `cardapio/src/components/home/` — componentes de exibição
+**Admin (escrita):** UI → Route Handler → Service → Repository → Turso. Os handlers validam com Zod e chamam os services; regras de negócio ficam nos services; SQL fica nos repositories.
 
-Não há nova consulta ao banco ao trocar de subcategoria na interface: a troca usa dados já carregados em memória.
-
----
-
-# Área Administrativa
-
-A área administrativa possui autenticação via Better Auth; somente usuários autorizados podem acessá-la.
-
-O painel está estruturado com os módulos abaixo (rotas e esboços em `src/app/admin`, `src/app/api`, `src/services` e `src/repositories`):
-
-* Dashboard
-* Produtos
-* Categorias
-* Subcategorias
-* Usuários
-* Horários de Funcionamento
-
-A autenticação e a sessão já funcionam. O CRUD completo de cada módulo ainda está em construção (handlers, services e repositories em grande parte como stubs/TODO).
-
----
-
-# Arquitetura
-
-O projeto usa dois caminhos de dados, conforme a área.
-
-### Área pública (leitura)
-
-```
-Server Component → home-data (Drizzle) → props → componentes
+```mermaid
+flowchart LR
+  publicHome[Home RSC] --> homeData[home-data.ts]
+  homeData --> turso[(Turso)]
+  adminUI[Admin UI] --> api[Route Handlers]
+  api --> services[Services]
+  services --> repos[Repositories]
+  repos --> turso
 ```
 
-Usado na home para carregar o cardápio de forma eficiente, sem passar pela API REST.
+## Começando
 
-### Área administrativa / API (alvo)
+Requisitos: Node.js 20+ e um banco [Turso](https://turso.tech/). Upload de imagens no admin também precisa de uma conta [Cloudinary](https://cloudinary.com/).
 
-A organização segue uma arquitetura semelhante à utilizada em backends tradicionais:
+```bash
+git clone <url-do-repositorio>
+cd cardapio
+cp .env.example .env.local
+```
+
+Preencha o `.env.local`:
+
+| Variável | Uso |
+| --- | --- |
+| `TURSO_DATABASE_URL` | URL do banco Turso |
+| `TURSO_AUTH_TOKEN` | Token de acesso Turso |
+| `BETTER_AUTH_SECRET` | Segredo da sessão (string aleatória) |
+| `BETTER_AUTH_URL` | URL pública da app (`http://localhost:3000` em dev) |
+| `CLOUDINARY_CLOUD_NAME` | Cloud da Cloudinary |
+| `CLOUDINARY_API_KEY` | Chave da API |
+| `CLOUDINARY_API_SECRET` | Segredo da API |
+
+```bash
+npm install
+npm run db:migrate
+npm run db:seed-admin
+npm run dev
+```
+
+A home fica em [http://localhost:3000](http://localhost:3000). O painel, em [http://localhost:3000/admin](http://localhost:3000/admin).
+
+## Scripts
+
+Executar de dentro de `cardapio/`:
+
+| Script | Função |
+| --- | --- |
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm run start` | Sobe o build |
+| `npm run lint` | ESLint |
+| `npm run db:generate` | Gera migrations Drizzle |
+| `npm run db:migrate` | Aplica migrations |
+| `npm run db:studio` | Drizzle Studio |
+| `npm run db:seed-admin` | Cria o primeiro usuário admin |
+| `npm run db:seed-menu` | Dados iniciais de cardápio |
+| `npm run db:seed-store` | Dados iniciais da loja |
+
+## Estrutura
 
 ```
-Route Handler => Service => Repository => Banco de Dados
+cardapio/
+├── drizzle/              schema e migrations
+├── scripts/              seeds
+└── src/
+    ├── app/              rotas (home, admin, login, API)
+    ├── components/home/  cardápio público
+    ├── components/admin/ layout do painel
+    ├── lib/              auth, banco, home-data, horários
+    ├── middleware/       sessão nas APIs e páginas
+    ├── repositories/     acesso ao banco
+    ├── services/         regras de negócio
+    └── validations/      schemas Zod
 ```
 
-Esboços em `src/app/api`, `src/services` e `src/repositories`. Cada camada resolve apenas sua responsabilidade.
+## Limitações
 
-### Route Handlers
+- `GET` de listagem em categorias, produtos, subcategorias e usuários ainda responde `501`. As telas de lista não usam esses endpoints.
+- Exclusão via API existe só para produtos.
+- Alguns arquivos em `src/components/public` e hooks (`use-menu`, `use-store-status`) ainda são stubs e não entram na UI atual.
 
-Responsáveis apenas por:
+## Roadmap
 
-* Receber requisições
-* Validar entrada
-* Chamar os Services
-* Retornar respostas
-
-Não devem conter regras de negócio.
-
----
-
-### Services
-
-Responsáveis por:
-
-* Regras de negócio
-* Validações
-* Operações
-* Comunicação com os Repositories
-
----
-
-### Repositories
-
-Responsáveis exclusivamente pelo acesso ao banco de dados.
-
-Nas rotas de API, consultas SQL / Drizzle ficam nesta camada. Na área pública de leitura, as consultas do cardápio ficam em `home-data.ts`.
-
----
-
-### Banco de dados
-
-* Turso
-* Drizzle ORM
-
----
-
-# Escalabilidade
-
-A arquitetura é preparada para permitir futuras implementações sem grandes refatorações.
-
-Entre elas:
-
-* Modal de detalhes do produto
-* Upload de imagens
-* Promoções
-* Pesquisa de produtos
-* Carrinho de compras
-* Pedidos online
-* Integração com WhatsApp
-* Controle de estoque
-* Múltiplas lojas
-* Sistema de permissões mais avançado
-* Dashboard com estatísticas
+- Carrinho e pedidos
+- Integração com WhatsApp
+- Controle de estoque
+- Pesquisa no cardápio
+- Modal de detalhes do produto
+- Promoções
+- Permissões mais granulares
+- Dashboard com estatísticas
+- Múltiplas lojas
