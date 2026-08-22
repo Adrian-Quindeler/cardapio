@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { asc, eq } from "drizzle-orm";
-import { products, subcategories } from "../../../../../drizzle/schema";
+import { categories, products, subcategories } from "../../../../../drizzle/schema";
 import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
 import { ProductForm } from "./ProductForm";
 import styles from "../../admin-form.module.css";
@@ -13,8 +13,17 @@ type PageProps = {
 export default async function ProductFormPage({ searchParams }: PageProps) {
   const { id } = await searchParams;
 
+  const categoryList = await db
+    .select({ id: categories.id, name: categories.name })
+    .from(categories)
+    .orderBy(asc(categories.displayOrder));
+
   const subcategoryList = await db
-    .select({ id: subcategories.id, name: subcategories.name })
+    .select({
+      id: subcategories.id,
+      categoryId: subcategories.categoryId,
+      name: subcategories.name,
+    })
     .from(subcategories)
     .orderBy(asc(subcategories.displayOrder));
 
@@ -26,6 +35,7 @@ export default async function ProductFormPage({ searchParams }: PageProps) {
         id: products.id,
         name: products.name,
         description: products.description,
+        categoryId: categories.id,
         subcategoryId: products.subcategoryId,
         retailPrice: products.retailPrice,
         wholesalePrice: products.wholesalePrice,
@@ -35,6 +45,8 @@ export default async function ProductFormPage({ searchParams }: PageProps) {
         status: products.status,
       })
       .from(products)
+      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
+      .leftJoin(categories, eq(subcategories.categoryId, categories.id))
       .where(eq(products.id, id))
       .limit(1);
 
@@ -46,6 +58,7 @@ export default async function ProductFormPage({ searchParams }: PageProps) {
       id: rows[0].id,
       name: rows[0].name,
       description: rows[0].description ?? "",
+      categoryId: rows[0].categoryId ?? "",
       subcategoryId: rows[0].subcategoryId,
       retailPrice: rows[0].retailPrice,
       wholesalePrice: rows[0].wholesalePrice,
@@ -59,7 +72,11 @@ export default async function ProductFormPage({ searchParams }: PageProps) {
   return (
     <section className={styles.page}>
       <SetAdminTitle title={initialProduct ? "Editar produto" : "Novo produto"} />
-      <ProductForm product={initialProduct} subcategories={subcategoryList} />
+      <ProductForm
+        product={initialProduct}
+        categories={categoryList}
+        subcategories={subcategoryList}
+      />
     </section>
   );
 }

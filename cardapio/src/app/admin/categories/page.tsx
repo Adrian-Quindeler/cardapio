@@ -31,7 +31,7 @@ export default async function AdminUsersPage() {
 			<table className={styles.table}>
 				<thead>
 					<tr>
-						<th>Display Order</th>
+						<th>Ordem</th>
 						<th>Nome</th>
 						<th>Descrição</th>
 						<th>Slug</th>

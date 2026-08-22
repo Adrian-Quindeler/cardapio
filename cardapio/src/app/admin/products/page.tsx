@@ -12,6 +12,7 @@ export default async function AdminUsersPage() {
 			id: products.id,
 			name: products.name,
 			description: products.description,
+			categoryName: categories.name,
 			subcategoryName: subcategories.name,
 			retailPrice: products.retailPrice,
 			wholesalePrice: products.wholesalePrice,
@@ -40,8 +41,9 @@ export default async function AdminUsersPage() {
 			<table className={styles.table}>
 				<thead>
 					<tr>
-						<th>Display Order</th>
+						<th>Ordem</th>
 						<th>Nome</th>
+						<th>Categoria</th>
 						<th>Subcategoria</th>
 						<th>Status</th>
 					</tr>
@@ -59,6 +61,7 @@ export default async function AdminUsersPage() {
 								</Link>
 							</td>
 							<td>{produto.name}</td>
+							<td>{produto.categoryName}</td>
 							<td>{produto.subcategoryName}</td>
 							<td>{produto.status}</td>
 						</tr>

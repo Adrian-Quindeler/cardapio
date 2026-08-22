@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  max-width: 52rem;
+  width: 100%;
   padding: 1.75rem 1.6rem 1.5rem;
   background: var(--mamute-white);
   border-radius: 1rem;
@@ -15,12 +15,13 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem 1.15rem;
 }
 
 .label {
   display: grid;
+  align-self: start;
   gap: 0.4rem;
   font-size: 0.92rem;
   font-weight: 600;
