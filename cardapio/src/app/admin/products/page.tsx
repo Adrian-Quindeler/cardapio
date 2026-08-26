@@ -1,75 +1,56 @@
-import Link from "next/link";
 import { db } from "@/lib/db";
 import { asc, eq } from "drizzle-orm";
 import { products, subcategories, categories } from "../../../../drizzle/schema";
 import { SetAdminTitle } from "@/components/admin/SetAdminTitle";
+import { ProductsTable } from "./ProductsTable";
 import styles from "../admin-list.module.css";
 
+export default async function AdminProductsPage() {
+	const listaCategorias = await db
+		.select({
+			id: categories.id,
+			name: categories.name,
+		})
+		.from(categories)
+		.orderBy(asc(categories.displayOrder));
 
-export default async function AdminUsersPage() {
+	const listaSubcategorias = await db
+		.select({
+			id: subcategories.id,
+			categoryId: subcategories.categoryId,
+			name: subcategories.name,
+		})
+		.from(subcategories)
+		.orderBy(asc(subcategories.displayOrder));
+
 	const listaProdutos = await db
 		.select({
 			id: products.id,
 			name: products.name,
-			description: products.description,
+			categoryId: categories.id,
 			categoryName: categories.name,
+			subcategoryId: products.subcategoryId,
 			subcategoryName: subcategories.name,
-			retailPrice: products.retailPrice,
-			wholesalePrice: products.wholesalePrice,
-			imageUrl: products.imageUrl,
 			status: products.status,
 			displayOrder: products.displayOrder,
-    })
+		})
 		.from(products)
 		.leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
 		.leftJoin(categories, eq(subcategories.categoryId, categories.id))
 		.orderBy(
-		asc(categories.displayOrder),
-		asc(subcategories.displayOrder),
-		asc(products.displayOrder),
+			asc(categories.displayOrder),
+			asc(subcategories.displayOrder),
+			asc(products.displayOrder),
 		);
 
 	return (
 		<section className={styles.page}>
 			<SetAdminTitle title="Produtos" />
-			<div className={styles.toolbar}>
-				<Link href="/admin/products/form" className={styles.newButton}>
-					Novo
-				</Link>
-			</div>
-			<div className={styles.tableWrap}>
-			<table className={styles.table}>
-				<thead>
-					<tr>
-						<th>Ordem</th>
-						<th>Nome</th>
-						<th>Categoria</th>
-						<th>Subcategoria</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-				<tbody>
-					{listaProdutos.map(async (produto) => {
-						return (
-						<tr key={produto.id} className={styles.clickableRow}>
-							<td>
-								<Link
-									href={`/admin/products/form?id=${produto.id}`}
-									className={styles.stretchedLink}
-								>
-									{produto.displayOrder}
-								</Link>
-							</td>
-							<td>{produto.name}</td>
-							<td>{produto.categoryName}</td>
-							<td>{produto.subcategoryName}</td>
-							<td>{produto.status}</td>
-						</tr>
-					);
-				})}
-				</tbody>
-			</table>
-			</div>
+			<ProductsTable
+				products={listaProdutos}
+				categories={listaCategorias}
+				subcategories={listaSubcategorias}
+			/>
 		</section>
 	);
 }

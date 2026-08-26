@@ -5,6 +5,7 @@
 .toolbar {
   display: flex;
   justify-content: flex-end;
+  gap: 0.7rem;
   margin-bottom: 1rem;
 }
 
@@ -27,6 +28,31 @@
 
 .newButton:hover {
   background: var(--mamute-yellow-hover);
+  transform: translateY(-2px);
+}
+
+.filterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.2rem;
+  border: 1.5px solid #d9dced;
+  border-radius: 999px;
+  background: var(--mamute-white);
+  color: var(--mamute-blue);
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.filterButton:hover {
+  background: #f7f8fc;
+  border-color: var(--mamute-blue);
   transform: translateY(-2px);
 }
 
@@ -87,4 +113,11 @@
   content: "";
   position: absolute;
   inset: 0;
+}
+
+.table td.emptyCell {
+  padding: 1.4rem 1rem;
+  color: var(--mamute-muted);
+  font-size: 0.95rem;
+  text-align: center;
 }

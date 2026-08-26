@@ -13,7 +13,7 @@ The app lives in [`cardapio/`](cardapio/). The home page is public; `/admin` req
 
 ## About
 
-**Mamute** is an online menu: customers browse products, prices, and whether the shop is open. Staff manage the catalog, opening hours, and users from an authenticated dashboard.
+This system is an online menu: customers browse products, prices, and whether the shop is open. Staff manage the catalog, opening hours, and users from an authenticated dashboard.
 
 ## Features
 
