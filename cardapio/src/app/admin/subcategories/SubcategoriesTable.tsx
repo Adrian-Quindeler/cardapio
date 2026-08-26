@@ -130,6 +130,8 @@ export function SubcategoriesTable({ subcategories, categories }: SubcategoriesT
 			>
 				<FilterField label="Nome">
 					<input
+						type="text"
+						autoComplete="off"
 						className={filterFieldStyles.input}
 						value={draft.name}
 						onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}

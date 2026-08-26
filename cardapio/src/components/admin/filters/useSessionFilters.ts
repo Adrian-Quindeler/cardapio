@@ -76,7 +76,7 @@ export function useSessionFilters<T extends Record<string, string>>(key: string,
 			try {
 				sessionStorage.setItem(key, JSON.stringify(values));
 			} catch {
-				// Ignore quota / private-mode failures; in-memory apply still happens via event.
+				// Ignore quota / private-mode failures.
 			}
 			notifyFiltersChanged();
 		},

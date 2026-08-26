@@ -86,7 +86,7 @@
   padding: 0.85rem 1rem;
   border: 2px solid #d9dced;
   border-radius: 0.95rem;
-  background: #fafbff;
+  background-color: #fafbff;
   color: var(--mamute-ink);
   font: inherit;
   font-weight: 500;
@@ -99,22 +99,7 @@
 .input:focus {
   outline: none;
   border-color: var(--mamute-blue);
-  background: var(--mamute-white);
-  box-shadow: 0 0 0 4px rgba(63, 68, 155, 0.15);
-}
-
-.footer {
-  display: flex;
-  flex-shrink: 0;
-  flex-direction: column;
-  gap: 0.7rem;
-  padding: 0.85rem 1.15rem 1.2rem;
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--mamute-blue);
-  background: var(--mamute-white);
+  background-color: var(--mamute-white);
   box-shadow: 0 0 0 4px rgba(63, 68, 155, 0.15);
 }
 
@@ -126,6 +111,36 @@ select.input {
   background-position: right 1rem center;
   background-size: 1rem;
   cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.85rem 1.15rem 1.2rem;
+}
+
+.search,
+.clear {
+  width: 100%;
+  padding: 0.85rem 1.2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--mamute-blue);
+  color: var(--mamute-white);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.search:hover,
+.clear:hover {
+  background: var(--mamute-blue-deep);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 720px) {

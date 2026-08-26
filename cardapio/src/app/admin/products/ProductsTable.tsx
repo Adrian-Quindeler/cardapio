@@ -188,6 +188,8 @@ export function ProductsTable({ products, categories, subcategories }: ProductsT
 				</FilterField>
 				<FilterField label="Nome">
 					<input
+						type="text"
+						autoComplete="off"
 						className={filterFieldStyles.input}
 						value={draft.name}
 						onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}

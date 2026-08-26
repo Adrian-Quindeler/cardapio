@@ -114,6 +114,8 @@ export function CategoriesTable({ categories }: CategoriesTableProps) {
 			>
 				<FilterField label="Nome">
 					<input
+						type="text"
+						autoComplete="off"
 						className={filterFieldStyles.input}
 						value={draft.name}
 						onChange={(event) => setDraft({ name: event.target.value })}
