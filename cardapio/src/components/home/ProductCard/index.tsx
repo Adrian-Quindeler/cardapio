@@ -10,6 +10,7 @@ interface ProductCardProps {
 		description: string | null;
 		retailPrice: number;
 		wholesalePrice: number;
+		wholesaleQuantity: number;
 		imageUrl: string | null;
 	};
 	style?: CSSProperties;
@@ -50,9 +51,12 @@ export default function ProductCard({ product, style }: ProductCardProps) {
 				<p className={styles.priceRow}>
 					Varejo: <strong>{formatPrice(product.retailPrice)}</strong>
 				</p>
-				<p className={`${styles.priceRow} ${styles.priceRowWholesale}`}>
-					Atacado: <strong>{formatPrice(product.wholesalePrice)}</strong>
-				</p>
+				{product.wholesalePrice > 0 && (
+					<p className={`${styles.priceRow} ${styles.priceRowWholesale}`}>
+						Atacado: <strong>{formatPrice(product.wholesalePrice)}</strong>
+						<span className={styles.priceWholesaleSpan}>A partir de {product.wholesaleQuantity} unidades</span>
+					</p>
+				)}
 			</div>
 		</article>
 	);

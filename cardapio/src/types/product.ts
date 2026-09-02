@@ -11,6 +11,7 @@ export interface Product {
   subcategoryId: string;
   retailPrice: number;
   wholesalePrice: number;
+  wholesaleQuantity: number;
   imageUrl: string | null;
   imagePublicId: string | null;
   status: ProductStatus;

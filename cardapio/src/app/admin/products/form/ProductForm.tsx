@@ -13,6 +13,7 @@ export type ProductFormData = {
 	subcategoryId: string;
 	retailPrice: number;
 	wholesalePrice: number;
+	wholesaleQuantity: number;
 	imageUrl: string;
 	imagePublicId: string;
 	displayOrder: number;
@@ -72,6 +73,7 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
 	const [subcategoryId, setSubcategoryId] = useState(product?.subcategoryId ?? "");
 	const [retailPrice, setRetailPrice] = useState(product?.retailPrice ?? 0);
 	const [wholesalePrice, setWholesalePrice] = useState(product?.wholesalePrice ?? 0);
+	const [wholesaleQuantity, setWholesaleQuantity] = useState(product?.wholesaleQuantity ?? 50);
 	const [imageUrl, setImageUrl] = useState(product?.imageUrl ?? "");
 	const [imagePublicId, setImagePublicId] = useState(product?.imagePublicId ?? "");
 	const [imageFile, setImageFile] = useState<File | null>(null);
@@ -127,6 +129,7 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
 				subcategoryId,
 				retailPrice,
 				wholesalePrice,
+				wholesaleQuantity,
 				imageUrl: finalImageUrl.trim(),
 				imagePublicId: finalImagePublicId.trim(),
 				displayOrder,
@@ -290,6 +293,21 @@ export function ProductForm({ product, categories, subcategories }: ProductFormP
 						className={styles.input}
 						value={wholesalePrice}
 						onChange={(e) => setWholesalePrice(Number(e.target.value))}
+						disabled={submitting}
+					/>
+				</label>
+
+				<label className={styles.label} htmlFor="wholesaleQuantity">
+					Quantidade mínima atacado
+					<input
+						id="wholesaleQuantity"
+						name="wholesaleQuantity"
+						type="number"
+						min={1}
+						step={1}
+						className={styles.input}
+						value={wholesaleQuantity}
+						onChange={(e) => setWholesaleQuantity(Number(e.target.value))}
 						disabled={submitting}
 					/>
 				</label>

@@ -73,12 +73,23 @@
 }
 
 .priceRowWholesale {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.1rem;
 	font-size: 0.76rem;
 }
 
 .priceRowWholesale strong {
 	color: var(--mamute-blue-deep);
 	font-weight: 600;
+}
+
+.priceWholesaleSpan {
+	font-size: 0.62rem;
+	font-weight: 400;
+	color: var(--mamute-muted);
+	line-height: 1.2;
 }
 
 @keyframes cardIn {
@@ -103,6 +114,10 @@
 
 	.priceRowWholesale {
 		font-size: 0.72rem;
+	}
+
+	.priceWholesaleSpan {
+		font-size: 0.58rem;
 	}
 
 	.placeholder {

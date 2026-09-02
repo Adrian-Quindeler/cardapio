@@ -1,0 +1,1 @@
+ALTER TABLE `products` ADD `wholesale_quantity` integer DEFAULT 50 NOT NULL;

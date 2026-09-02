@@ -41,6 +41,7 @@ export async function getActiveProducts() {
 			description: products.description,
 			retailPrice: products.retailPrice,
 			wholesalePrice: products.wholesalePrice,
+			wholesaleQuantity: products.wholesaleQuantity,
 			imageUrl: products.imageUrl,
 			subcategoryId: products.subcategoryId,
 		})

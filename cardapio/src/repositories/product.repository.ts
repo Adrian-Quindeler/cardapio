@@ -11,6 +11,7 @@ type CreateProductRecord = {
   subcategoryId: string;
   retailPrice: number;
   wholesalePrice: number;
+  wholesaleQuantity: number;
   imageUrl: string;
   imagePublicId: string;
   displayOrder: number;
@@ -40,6 +41,7 @@ export class ProductRepository {
       subcategoryId: data.subcategoryId,
       retailPrice: data.retailPrice,
       wholesalePrice: data.wholesalePrice,
+      wholesaleQuantity: data.wholesaleQuantity,
       imageUrl: data.imageUrl || null,
       imagePublicId: data.imagePublicId || null,
       displayOrder: data.displayOrder,
@@ -62,6 +64,7 @@ export class ProductRepository {
         subcategoryId: data.subcategoryId,
         retailPrice: data.retailPrice,
         wholesalePrice: data.wholesalePrice,
+        wholesaleQuantity: data.wholesaleQuantity,
         imageUrl: data.imageUrl || null,
         imagePublicId: data.imagePublicId || null,
         displayOrder: data.displayOrder,

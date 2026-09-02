@@ -7,6 +7,7 @@ interface Product {
 	description: string | null;
 	retailPrice: number;
 	wholesalePrice: number;
+	wholesaleQuantity: number;
 	imageUrl: string | null;
 }
 

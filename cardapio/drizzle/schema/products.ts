@@ -8,6 +8,7 @@ export const products = sqliteTable("products", {
   subcategoryId:  text("subcategory_id").notNull().references(() => subcategories.id, { onDelete: "restrict" }),
   retailPrice:    real("retail_price").notNull(),
   wholesalePrice: real("wholesale_price").notNull(),
+  wholesaleQuantity: integer("wholesale_quantity").notNull().default(50),
   imageUrl:       text("image_url"),
   imagePublicId:  text("image_public_id"),
   status:         text("status").notNull().default("active"),
