@@ -12,7 +12,8 @@
     "db:studio": "drizzle-kit studio",
     "db:seed-admin": "tsx scripts/seed-admin.ts",
     "db:seed-menu": "tsx scripts/seed-menu.ts",
-    "db:seed-store": "tsx scripts/seed-store.ts"
+    "db:seed-store": "tsx scripts/seed-store.ts",
+    "apply-migrations": "tsx scripts/apply-migration.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.6.25",
